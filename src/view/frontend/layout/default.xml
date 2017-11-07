@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="store.menu">
+            <action ifconfig="top_menu/general/enabled"
+                    method="unsetChild">
+                <argument name="block" xsi:type="string">catalog.topnav</argument>
+            </action>
+
+            <block ifconfig="top_menu/general/enabled"
+                   class="AF\EasyMenu\Block\Html\Topmenu"
+                   name="magamenu"
+                   template="AF_EasyMenu::easymenu/html/topmenu.phtml"
+                   before="-"/>
+        </referenceBlock>
+    </body>
+</page>

@@ -1,0 +1,31 @@
+{
+  "name": "afirlejczyk/magento2-easymenu",
+  "description": "Easy Menu",
+  "type": "magento2-module",
+  "authors": [
+    {
+      "name": "Agata Firlejczyk <a.firlejczyk@gmail.com>",
+      "role": "Developer"
+    }
+  ],
+  "dist": {
+    "url": "git@bitbucket.org:afirlejczyk/magento2-easymenu-private-old.git",
+    "type": "git"
+  },
+  "require": {
+    "magento/framework": "101.0.0",
+    "magento/module-catalog": "102.0.0",
+    "magento/module-cms": "102.0.0",
+    "magento/module-catalog-url-rewrite": "100.2.0",
+    "magento/magento-composer-installer": "*",
+    "magento/module-url-rewrite": "101.0.0"
+  },
+  "autoload": {
+    "files": [
+      "src/registration.php"
+    ],
+    "psr-4": {
+      "AF\\EasyMenu\\": "/src"
+    }
+  }
+}

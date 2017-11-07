@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="AF\EasyMenu\Api\Data\ItemInterface" type="AF\EasyMenu\Model\Item" />
+    <preference for="AF\EasyMenu\Api\ItemRepositoryInterface" type="AF\EasyMenu\Model\ItemRepository" />
+    <preference for="AF\EasyMenu\Model\Locator\LocatorInterface" type="AF\EasyMenu\Model\Locator\RegistryLocator"/>
+    <preference for="AF\EasyMenu\Model\Item\UrlBuilderInterface" type="AF\EasyMenu\Model\Item\UrlBuilder"/>
+    <preference for="AF\EasyMenu\Model\ItemManagementInterface" type="AF\EasyMenu\Model\ItemManagement"/>
+
+    <type name="Magento\Theme\Block\Html\Topmenu">
+        <plugin name="catalogTopmenu" disabled="true" />
+        <plugin name="easyMenuTopMenu" type="AF\EasyMenu\Plugin\Catalog\Block\TopMenu" />
+    </type>
+</config>

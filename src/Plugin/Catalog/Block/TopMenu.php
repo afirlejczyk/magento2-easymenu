@@ -43,7 +43,7 @@ class TopMenu extends CatalogTopMenu
     }
 
     /**
-     * Build category tree for menu block.
+     * Build category tree for menu block if EasyMenu Top menu is disabled
      *
      * @param \Magento\Theme\Block\Html\Topmenu $subject
      * @param string $outermostClass

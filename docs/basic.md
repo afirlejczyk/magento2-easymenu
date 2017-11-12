@@ -11,16 +11,14 @@ Open the composer.json in the Magento 2 root folder add
                   "type": "git",
                   "url": "https://github.com/afirlejczyk/magento2-easymenu.git"
               }
-          ],
-      "minimum-stability": "dev",
-      "prefer-stable": true
+          ]
     }
 ```
 
 Go to the ssh console at the Magento 2 root folder, 
 next please enter the command line 
 
-```composer require afirlejczyk/magento2-easymenu```
+```composer require afirlejczyk/magento2-easymenu dev-master```
 
 #### Enable module ans run EasyMenu setup
  

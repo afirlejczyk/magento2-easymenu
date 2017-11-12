@@ -8,10 +8,6 @@
       "role": "Developer"
     }
   ],
-  "dist": {
-    "url": "git@bitbucket.org:afirlejczyk/magento2-easymenu-private-old.git",
-    "type": "git"
-  },
   "require": {
     "magento/framework": "~101.0.0",
     "magento/module-catalog": "~102.0.0",

@@ -69,7 +69,7 @@ class Mover
 
         if ($parentId) {
             try {
-                $parent = $this->itemRepository->getById($parentId);
+                $parent = $this->itemRepository->get($parentId);
             } catch (NoSuchEntityException $e) {
                 throw new LocalizedException(
                     __(

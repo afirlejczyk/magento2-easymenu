@@ -61,7 +61,7 @@ class ItemRepository implements Api\ItemRepositoryInterface
     /**
      * @inheritdoc
      */
-    public function getById($itemId)
+    public function get($itemId)
     {
         $item = $this->itemFactory->create();
         $this->resource->load($item, $itemId);
@@ -92,6 +92,6 @@ class ItemRepository implements Api\ItemRepositoryInterface
      */
     public function deleteById($itemId)
     {
-        return $this->delete($this->getById($itemId));
+        return $this->delete($this->get($itemId));
     }
 }

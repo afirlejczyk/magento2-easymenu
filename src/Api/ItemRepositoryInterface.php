@@ -30,7 +30,7 @@ interface ItemRepositoryInterface
      * @return \AF\EasyMenu\Api\Data\ItemInterface
      * @throws \Magento\Framework\Exception\LocalizedException
      */
-    public function getById($itemId);
+    public function get($itemId);
 
     /**
      * Delete menu item.

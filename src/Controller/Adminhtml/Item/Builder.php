@@ -76,7 +76,7 @@ class Builder
         $storeId = (int) $request->getParam('store', $this->getDefaultStoreId());
 
         try {
-            $menuItem = $this->itemRepository->getById($menuItemId);
+            $menuItem = $this->itemRepository->get($menuItemId);
             $storeId = $menuItem->getStoreId();
         } catch (NoSuchEntityException $e) {
             $parentId = (int) $request->getParam('parent_id', 0);

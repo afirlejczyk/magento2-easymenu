@@ -26,6 +26,7 @@ class InstallSchema implements InstallSchemaInterface
      * @param ModuleContextInterface $context
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
+    //@codingStandardsIgnoreLine
     public function install(SchemaSetupInterface $setup, ModuleContextInterface $context)
     {
         $installer = $setup;

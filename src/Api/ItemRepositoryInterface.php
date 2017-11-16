@@ -7,49 +7,39 @@
  */
 namespace AF\EasyMenu\Api;
 
+use AF\EasyMenu\Api\Data\ItemInterface;
+
 /**
  * Interface ItemRepositoryInterface
  */
 interface ItemRepositoryInterface
 {
     /**
-     * Save item.
+     * Save menu item data
      *
      * @param \AF\EasyMenu\Api\Data\ItemInterface $item
-     *
-     * @return \Magento\Cms\Api\Data\BlockInterface
-     * @throws \Magento\Framework\Exception\LocalizedException
+     * @return int
+     * @throws \Magento\Framework\Exception\CouldNotSaveException
      */
-    public function save(Data\ItemInterface $item);
+    public function save(Data\ItemInterface $item): int;
 
     /**
-     * Retrieve item.
+     * Retrieve menu item
      *
      * @param int $itemId
      *
      * @return \AF\EasyMenu\Api\Data\ItemInterface
      * @throws \Magento\Framework\Exception\LocalizedException
      */
-    public function get($itemId);
+    public function get($itemId): ItemInterface;
 
     /**
-     * Delete menu item.
+     * Delete menu item
      *
      * @param \AF\EasyMenu\Api\Data\ItemInterface $item
      *
-     * @return bool true on success
-     * @throws \Magento\Framework\Exception\LocalizedException
+     * @return void
+     * @throws \Magento\Framework\Exception\CouldNotDeleteException
      */
     public function delete(Data\ItemInterface $item);
-
-    /**
-     * Delete block by ID.
-     *
-     * @param int $itemId
-     *
-     * @return bool true on success
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
-     * @throws \Magento\Framework\Exception\LocalizedException
-     */
-    public function deleteById($itemId);
 }

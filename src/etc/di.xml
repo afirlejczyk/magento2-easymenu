@@ -5,6 +5,9 @@
     <preference for="AF\EasyMenu\Model\Locator\LocatorInterface" type="AF\EasyMenu\Model\Locator\RegistryLocator"/>
     <preference for="AF\EasyMenu\Model\Item\UrlBuilderInterface" type="AF\EasyMenu\Model\Item\UrlBuilder"/>
     <preference for="AF\EasyMenu\Model\ItemManagementInterface" type="AF\EasyMenu\Model\ItemManagement"/>
+    <preference for="AF\EasyMenu\Model\Item\Command\DeleteInterface" type="AF\EasyMenu\Model\Item\Command\Delete"/>
+    <preference for="AF\EasyMenu\Model\Item\Command\GetInterface" type="AF\EasyMenu\Model\Item\Command\Get"/>
+    <preference for="AF\EasyMenu\Model\Item\Command\SaveInterface" type="AF\EasyMenu\Model\Item\Command\Save"/>
 
     <type name="Magento\Theme\Block\Html\Topmenu">
         <plugin name="catalogTopmenu" disabled="true" />

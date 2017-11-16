@@ -10,67 +10,63 @@ namespace AF\EasyMenu\Model;
 
 use AF\EasyMenu\Api;
 use AF\EasyMenu\Api\Data;
-use AF\EasyMenu\Model\ResourceModel\Item as ResourceItem;
-use Magento\Framework\Exception\CouldNotDeleteException;
-use Magento\Framework\Exception\CouldNotSaveException;
-use Magento\Framework\Exception\NoSuchEntityException;
+use AF\EasyMenu\Api\Data\ItemInterface;
+use AF\EasyMenu\Model\Item\Command\DeleteInterface;
+use AF\EasyMenu\Model\Item\Command\GetInterface;
+use AF\EasyMenu\Model\Item\Command\SaveInterface;
 
 /**
  * Item Repository
  */
 class ItemRepository implements Api\ItemRepositoryInterface
 {
-    /**
-     * @var ResourceItem
-     */
-    private $resource;
 
     /**
-     * @var ItemFactory
+     * @var SaveInterface
      */
-    private $itemFactory;
+    private $commandSave;
+
+    /**
+     * @var GetInterface
+     */
+    private $commandGet;
+
+    /**
+     * @var DeleteInterface
+     */
+    private $commandDelete;
 
     /**
      * ItemRepository constructor.
      *
-     * @param ResourceItem $resourceItem
-     * @param ItemFactory $itemFactory
+     * @param DeleteInterface $commandDelete
+     * @param GetInterface $commandGet
+     * @param SaveInterface $commandSave
      */
     public function __construct(
-        ResourceItem $resourceItem,
-        ItemFactory $itemFactory
+        DeleteInterface $commandDelete,
+        GetInterface $commandGet,
+        SaveInterface $commandSave
     ) {
-        $this->resource = $resourceItem;
-        $this->itemFactory = $itemFactory;
+        $this->commandSave = $commandSave;
+        $this->commandGet = $commandGet;
+        $this->commandDelete = $commandDelete;
     }
 
     /**
      * @inheritdoc
      */
-    public function save(Data\ItemInterface $item)
+    public function save(Data\ItemInterface $item): int
     {
-        try {
-            $this->resource->save($item);
-        } catch (\Exception $exception) {
-            throw new CouldNotSaveException(__($exception->getMessage()));
-        }
-
-        return $item;
+        return $this->commandSave->execute($item);
     }
 
     /**
      * @inheritdoc
      */
-    public function get($itemId)
+    public function get($itemId): ItemInterface
     {
-        $item = $this->itemFactory->create();
-        $this->resource->load($item, $itemId);
-
-        if (!$item->getId()) {
-            throw new NoSuchEntityException(__('Item Menu with id "%1" does not exist.', $itemId));
-        }
-
-        return $item;
+        return $this->commandGet->execute($itemId);
     }
 
     /**
@@ -78,20 +74,6 @@ class ItemRepository implements Api\ItemRepositoryInterface
      */
     public function delete(Data\ItemInterface $item)
     {
-        try {
-            $this->resource->delete($item);
-        } catch (\Exception $exception) {
-            throw new CouldNotDeleteException(__($exception->getMessage()));
-        }
-
-        return true;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function deleteById($itemId)
-    {
-        return $this->delete($this->get($itemId));
+        $this->commandDelete->execute($item);
     }
 }

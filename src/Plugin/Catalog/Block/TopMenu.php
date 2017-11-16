@@ -67,6 +67,7 @@ class TopMenu extends CatalogTopMenu
     /**
      * @param \Magento\Theme\Block\Html\Topmenu $subject
      */
+    //@codingStandardsIgnoreLine
     public function beforeGetIdentities(\Magento\Theme\Block\Html\Topmenu $subject)
     {
         if (!$this->isTopMenuEnabled()) {

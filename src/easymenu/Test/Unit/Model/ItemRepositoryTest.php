@@ -84,12 +84,11 @@ class ItemRepositoryTest extends TestCase
         self::assertSame($this->itemRepository->save($this->item), $itemId);
     }
 
-    /**
-     * @expectedException \Magento\Framework\Exception\CouldNotSaveException
-     * @expectedExceptionMessage Some error
-     */
     public function testSaveWithCouldNotSaveException()
     {
+        $this->expectException(CouldNotSaveException::class);
+        $this->expectExceptionMessage("Some error");
+
         $this->commandSave
             ->method('execute')
             ->with($this->item)
@@ -109,12 +108,11 @@ class ItemRepositoryTest extends TestCase
         self::assertEquals($this->item, $this->itemRepository->get($itemId));
     }
 
-    /**
-     * @expectedException \Magento\Framework\Exception\NoSuchEntityException
-     * @expectedExceptionMessage Some error
-     */
     public function testGetWithNoSuchEntityException()
     {
+        $this->expectException(NoSuchEntityException::class);
+        $this->expectExceptionMessage("Some error");
+
         $itemId = 2;
         $this->commandGet
             ->method('execute')

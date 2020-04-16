@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="AMF_EasyMenuAdminUi::menu"
+             title="Easy Menu"
+             translate="title"
+             module="AMF_EasyMenuAdminUi"
+             sortOrder="1000"
+             parent = "Magento_Backend::content"
+             resource="AMF_EasyMenuAdminUi::menu"/>
+
+        <add id="AMF_EasyMenuAdminUi::manage_top_menu" title="Manage Top Menu" translate="title"
+             module="AMF_EasyMenuAdminUi"
+             sortOrder="0"
+             parent="AMF_EasyMenuAdminUi::menu"
+             action="easymenu/item/add"
+             resource="AMF_EasyMenuAdminUi::menu"/>
+    </menu>
+</config>

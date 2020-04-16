@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+
+<actionGroups xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
+    <actionGroup name="SelectCategoryActionGroup">
+        <annotations>
+            <description>Select Category.</description>
+        </annotations>
+        <arguments>
+            <argument name="category" type="entity"/>
+        </arguments>
+
+        <waitForElementVisible time="5" selector="{{AdminItemBasicFieldSection.CategoryDropdown}}"
+                               stepKey="waitCategoryDropdownVisible" />
+        <searchAndMultiSelectOption
+            selector="{{AdminItemBasicFieldSection.CategoryDropdown}}"
+            parameterArray="[{{category.name}}]" stepKey="searchAndSelectCategory"/>
+    </actionGroup>
+</actionGroups>

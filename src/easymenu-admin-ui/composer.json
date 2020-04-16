@@ -1,0 +1,20 @@
+{
+  "name": "afirlejczyk/module-easymenu-admin-ui",
+  "description": "Magento 2 Easy Menu",
+  "type": "magento2-module",
+  "authors": [
+    {
+      "name": "Agata Firlejczyk <a.firlejczyk@gmail.com>",
+      "role": "Developer"
+    }
+  ],
+  "minimum-stability": "dev",
+  "autoload": {
+    "files": [
+      "registration.php"
+    ],
+    "psr-4": {
+      "AMF\\EasyMenuAdminUi\\": ""
+    }
+  }
+}

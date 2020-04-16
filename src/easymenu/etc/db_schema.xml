@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="easymenu_item" resource="default" engine="innodb" comment="EasyMenu Items">
+        <column xsi:type="int" name="item_id" nullable="false" padding="11" unsigned="true" identity="true" comment="Item ID"/>
+
+        <column xsi:type="varchar" name="name" length="50" nullable="false" comment="Title"/>
+
+        <column xsi:type="int" name="parent_id" padding="11" unsigned="true" nullable="false" comment="Parent ID"/>
+        <column xsi:type="varchar" name="type" length="255"  nullable="false" comment="Link Type"/>
+
+        <column xsi:type="varchar" name="value" length="255" nullable="false" comment="Item Value"/>
+
+        <column xsi:type="int" name="priority" padding="11" unsigned="true" nullable="false" comment="Priority"/>
+        <column xsi:type="int" name="store_id" padding="11" unsigned="true" nullable="false" comment="Store ID"/>
+
+        <column xsi:type="boolean" name="is_active" default="1" nullable="false" comment="Is Active"/>
+
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="item_id"/>
+        </constraint>
+
+        <!--TODO add store_id index type index-->
+    </table>
+</schema>

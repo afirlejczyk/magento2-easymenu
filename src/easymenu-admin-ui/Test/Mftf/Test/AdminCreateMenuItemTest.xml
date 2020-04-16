@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
+    <test name="AdminCreateMenuItemCategoryTypeTest">
+        <annotations>
+            <features value="Catalog"/>
+            <stories value="Create a Menu Item via Admin"/>
+            <title value="Admin should be able to create a Menu Item"/>
+            <description value="Admin should be able to create Category Type Item"/>
+            <severity value="AVERAGE"/>
+            <group value="menu-item"/>
+        </annotations>
+        <before>
+            <actionGroup ref="LoginAsAdmin" stepKey="loginAsAdmin"/>
+            <createData entity="_defaultCategory" stepKey="createPreReqCategory"/>
+        </before>
+        <after>
+            <deleteData createDataKey="createPreReqCategory" stepKey="deletePreReqCategory"/>
+            <actionGroup ref="logout" stepKey="adminLogout"/>
+        </after>
+
+        <amOnPage url="{{AdminMenuItemPage.url}}" stepKey="navigateToMenuItemPage"/>
+        <waitForPageLoad time="5" stepKey="waitForPageLoad"/>
+        <click selector="{{AdminMenuSidebarActionSection.AddRootMenuItemButton}}" stepKey="clickOnAddMainItemCategory"/>
+        <fillField selector="{{AdminItemBasicFieldSection.ItemNameInput}}" userInput="{{MainItem.name}}" stepKey="enterName"/>
+        <selectOption selector="{{AdminItemBasicFieldSection.TypeDropdown}}" userInput="Category" stepKey="SelectType"/>
+        <actionGroup ref="SelectCategoryActionGroup" stepKey="fillProductFieldsInAdmin">
+            <argument name="category" value="$$createPreReqCategory$$"/>
+        </actionGroup>
+
+        <click selector="{{AdminMenuItemActionSection.SaveButton}}" stepKey="saveItem"/>
+<!--        <see userInput="You saved the page." stepKey="seeSuccessMessage"/>-->
+        <seeElement selector="{{AdminMenuItemMessageSection.SuccessMessage}}" stepKey="assertSuccess"/>
+        <seeInTitle userInput="{{MainItem.name}}" stepKey="assertTitle"/>
+
+        <!--Go to storefront and check if item is visible in menu-->
+        <amOnPage url="/" stepKey="amOnHomepage"/>
+        <see userInput="{{MainItem.name}}" stepKey="seeItemInMenu"/>
+    </test>
+</tests>

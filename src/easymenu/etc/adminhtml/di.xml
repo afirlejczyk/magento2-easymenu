@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="AMF\EasyMenuApi\Model\MenuTreeInterface" type="AMF\EasyMenu\Model\Backend\Tree"/>
+    <preference for="AMF\EasyMenuApi\Model\Item\ConvertToArrayInterface" type="AMF\EasyMenu\Model\Backend\Item\ConvertToArray" />
+
+    <virtualType name="AMF\EasyMenu\Ui\DataProvider\Item\Form\Modifier\Pool"
+                 type="Magento\Ui\DataProvider\Modifier\Pool">
+        <arguments>
+            <argument name="modifiers" xsi:type="array">
+                <item name="general" xsi:type="array">
+                    <item name="class" xsi:type="string">AMF\EasyMenu\Ui\DataProvider\Item\Form\Modifier\General</item>
+                    <item name="sortOrder" xsi:type="number">1</item>
+                </item>
+                <item name="system" xsi:type="array">
+                    <item name="class" xsi:type="string">AMF\EasyMenu\Ui\DataProvider\Item\Form\Modifier\System</item>
+                    <item name="sortOrder" xsi:type="number">20</item>
+                </item>
+                <item name="priority" xsi:type="array">
+                    <item name="class" xsi:type="string">AMF\EasyMenu\Ui\DataProvider\Item\Form\Modifier\Priority</item>
+                    <item name="sortOrder" xsi:type="number">30</item>
+                </item>
+                <item name="parent_list" xsi:type="array">
+                    <item name="class" xsi:type="string">AMF\EasyMenu\Ui\DataProvider\Item\Form\Modifier\ParentList</item>
+                    <item name="sortOrder" xsi:type="number">40</item>
+                </item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <type name="AMF\EasyMenu\Ui\DataProvider\Item\ItemDataProvider">
+        <arguments>
+            <argument name="pool" xsi:type="object">AMF\EasyMenu\Ui\DataProvider\Item\Form\Modifier\Pool</argument>
+        </arguments>
+    </type>
+</config>

@@ -1,6 +1,6 @@
 {
-  "name": "afirlejczyk/magento2-easymenu",
-  "description": "Easy Menu",
+  "name": "afirlejczyk/magento2-easymenu-new",
+  "description": "Magento 2 Easy Menu",
   "type": "magento2-module",
   "authors": [
     {
@@ -8,20 +8,17 @@
       "role": "Developer"
     }
   ],
-  "require": {
-    "magento/framework": "~101.0.0",
-    "magento/module-catalog": "~102.0.0",
-    "magento/module-cms": "~102.0.0",
-    "magento/module-catalog-url-rewrite": "~100.2.0",
-    "magento/magento-composer-installer": "*",
-    "magento/module-url-rewrite": "~101.0.0"
-  },
+  "minimum-stability": "dev",
   "autoload": {
     "files": [
-      "src/registration.php"
+      "src/easymenu-admin-ui/registration.php",
+      "src/easymenu-api/registration.php",
+      "src/easymenu/registration.php"
     ],
     "psr-4": {
-      "AF\\EasyMenu\\": "/src"
+      "AMF\\EasyMenu\\": "src/easymenu",
+      "AMF\\EasyMenuApi\\": "src/easymenu-api",
+      "AMF\\EasyMenuAdminUi\\": "src/easymenu-admin-ui"
     }
   }
 }

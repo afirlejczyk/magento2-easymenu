@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">easymenu_item_form.easymenu_item_form_data_source</item>
+        </item>
+        <item name="label" xsi:type="string" translate="true">Menu Information</item>
+        <item name="template" xsi:type="string">templates/form/collapsible</item>
+        <item name="reverseMetadataMerge" xsi:type="boolean">true</item>
+    </argument>
+    <settings>
+        <namespace>easymenu_item_form</namespace>
+        <dataScope>data</dataScope>
+        <deps>
+            <dep>easymenu_item_form.easymenu_item_form_data_source</dep>
+        </deps>
+        <buttons>
+            <button name="delete" class="AMF\EasyMenuAdminUi\Block\Adminhtml\Edit\DeleteButton"/>
+            <button name="save" class="AMF\EasyMenuAdminUi\Block\Adminhtml\Edit\SaveButton"/>
+        </buttons>
+    </settings>
+
+    <dataSource name="easymenu_item_form_data_source">
+        <argument name="data" xsi:type="array">
+            <item name="js_config" xsi:type="array">
+                <item name="component" xsi:type="string">Magento_Ui/js/form/provider</item>
+            </item>
+        </argument>
+        <settings>
+            <submitUrl path="easymenu/item/save"/>
+        </settings>
+        <dataProvider class="AMF\EasyMenuAdminUi\Ui\DataProvider\Item\Form\ItemDataProvider"
+                      name="easymenu_item_form_data_source">
+            <settings>
+                <requestFieldName>item_id</requestFieldName>
+                <primaryFieldName>item_id</primaryFieldName>
+            </settings>
+        </dataProvider>
+    </dataSource>
+
+    <fieldset name="general">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="label" xsi:type="string"/>
+                <item name="collapsible" xsi:type="boolean">false</item>
+            </item>
+        </argument>
+
+        <field name="store_id" formElement="hidden">
+            <settings>
+                <dataType>number</dataType>
+            </settings>
+        </field>
+
+        <field name="item_id" formElement="input">
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Id</label>
+                <visible>false</visible>
+            </settings>
+        </field>
+
+        <field name="is_active" formElement="checkbox">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="default" xsi:type="number">1</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>boolean</dataType>
+                <label translate="true">Is Active</label>
+            </settings>
+            <formElements>
+                <checkbox>
+                    <settings>
+                        <valueMap>
+                            <map name="false" xsi:type="number">0</map>
+                            <map name="true" xsi:type="number">1</map>
+                        </valueMap>
+                        <prefer>toggle</prefer>
+                    </settings>
+                </checkbox>
+            </formElements>
+        </field>
+
+        <field name="name" formElement="input">
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Name</label>
+                <visible>true</visible>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+            </settings>
+        </field>
+
+        <field name="type" formElement="select" sortOrder="10">
+            <settings>
+                <label translate="true">Type</label>
+                <visible>true</visible>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+
+                <switcherConfig>
+                    <enabled>true</enabled>
+                    <rules>
+                        <rule name="0">
+                            <value>cms</value>
+                            <actions>
+                                <action name="0">
+                                    <target>easymenu_item_form.easymenu_item_form.general.cms_value</target>
+                                    <callback>show</callback>
+                                </action>
+                                <action name="1">
+                                    <target>easymenu_item_form.easymenu_item_form.general.category_value</target>
+                                    <callback>hide</callback>
+                                </action>
+                                <action name="2">
+                                    <target>easymenu_item_form.easymenu_item_form.general.external_value</target>
+                                    <callback>hide</callback>
+                                </action>
+                            </actions>
+                        </rule>
+                        <rule name="1">
+                            <value>category</value>
+                            <actions>
+                                <action name="0">
+                                    <target>easymenu_item_form.easymenu_item_form.general.cms_value</target>
+                                    <callback>hide</callback>
+                                </action>
+                                <action name="1">
+                                    <target>easymenu_item_form.easymenu_item_form.general.category_value</target>
+                                    <callback>show</callback>
+                                </action>
+                                <action name="2">
+                                    <target>easymenu_item_form.easymenu_item_form.general.external_value</target>
+                                    <callback>hide</callback>
+                                </action>
+                            </actions>
+                        </rule>
+                        <rule name="2">
+                            <value>external</value>
+                            <actions>
+                                <action name="0">
+                                    <target>easymenu_item_form.easymenu_item_form.general.cms_value</target>
+                                    <callback>hide</callback>
+                                </action>
+                                <action name="1">
+                                    <target>easymenu_item_form.easymenu_item_form.general.category_value</target>
+                                    <callback>hide</callback>
+                                </action>
+                                <action name="2">
+                                    <target>easymenu_item_form.easymenu_item_form.general.external_value</target>
+                                    <callback>show</callback>
+                                </action>
+                            </actions>
+                        </rule>
+                    </rules>
+                </switcherConfig>
+            </settings>
+            <formElements>
+                <select>
+                    <settings>
+                        <options class="AMF\EasyMenuAdminUi\Ui\Component\Item\Form\LinkType"/>
+                        <caption>-- Please Select --</caption>
+                        <captionValue>0</captionValue>
+                    </settings>
+                </select>
+            </formElements>
+        </field>
+
+        <field name="cms_value" formElement="select" component="Magento_Ui/js/form/element/ui-select" sortOrder="20">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="filterOptions" xsi:type="boolean">true</item>
+                    <item name="showCheckbox" xsi:type="boolean">false</item>
+                    <item name="disableLabel" xsi:type="boolean">true</item>
+                    <item name="multiple" xsi:type="boolean">false</item>
+                    <item name="levelsVisibility" xsi:type="number">1</item>
+                    <item name="selectedPlaceholders" xsi:type="array">
+                        <item name="defaultPlaceholder" translate="true"
+                              xsi:type="string">-- Please Select CMS Page --</item>
+                    </item>
+                </item>
+            </argument>
+
+            <settings>
+                <label translate="true">CMS Page</label>
+                <visible>false</visible>
+                <elementTmpl>ui/grid/filters/elements/ui-select</elementTmpl>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+            </settings>
+
+            <formElements>
+                <select>
+                    <settings>
+                        <options class="AMF\EasyMenuAdminUi\Ui\Component\Item\Form\CmsPageOptions"/>
+                    </settings>
+                </select>
+            </formElements>
+        </field>
+
+        <field name="category_value" formElement="select" component="Magento_Ui/js/form/element/ui-select" sortOrder="20">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="filterOptions" xsi:type="boolean">true</item>
+                    <item name="showCheckbox" xsi:type="boolean">false</item>
+                    <item name="disableLabel" xsi:type="boolean">true</item>
+                    <item name="multiple" xsi:type="boolean">false</item>
+                    <item name="levelsVisibility" xsi:type="number">1</item>
+                    <item name="selectedPlaceholders" xsi:type="array">
+                        <item name="defaultPlaceholder" translate="true"
+                              xsi:type="string">-- Please Select Category --</item>
+                    </item>
+                </item>
+            </argument>
+
+            <settings>
+                <label translate="true">Category</label>
+                <visible>false</visible>
+                <elementTmpl>ui/grid/filters/elements/ui-select</elementTmpl>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+            </settings>
+
+            <formElements>
+                <select>
+                    <settings>
+                        <options class="AMF\EasyMenuAdminUi\Ui\Component\Item\Form\CategoryOptions"/>
+                    </settings>
+                </select>
+            </formElements>
+        </field>
+
+        <field name="external_value" formElement="input" sortOrder="20">
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">URL</label>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+                <visible>false</visible>
+            </settings>
+        </field>
+
+        <field name="priority" formElement="input" sortOrder="100">
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Priority</label>
+                <visible>true</visible>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                    <rule name="validate-greater-than-zero" xsi:type="boolean">true</rule>
+                </validation>
+            </settings>
+        </field>
+    </fieldset>
+</form>

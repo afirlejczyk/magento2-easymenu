@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="AMF\EasyMenuApi\Api\Data\ItemInterface" type="AMF\EasyMenu\Model\Item" />
+    <preference for="AMF\EasyMenuApi\Api\ItemRepositoryInterface" type="AMF\EasyMenu\Model\ItemRepository" />
+    <preference for="AMF\EasyMenuApi\Api\Data\ItemSearchResultInterface" type="AMF\EasyMenu\Model\ItemSearchResult"/>
+    <preference for="AMF\EasyMenuApi\Model\GetAllItemsInterface" type="AMF\EasyMenu\Model\GetAllItems"/>
+    <preference for="AMF\EasyMenuApi\Model\MenuTreeInterface" type="AMF\EasyMenu\Model\Tree"/>
+    <preference for="AMF\EasyMenuApi\Model\BuildTreeInterface" type="AMF\EasyMenu\Model\BuildMenuTree"/>
+    <preference for="AMF\EasyMenuApi\Model\Item\ConvertToArrayInterface" type="AMF\EasyMenu\Model\Item\ConvertToArray" />
+    <preference for="AMF\EasyMenuApi\Model\ItemMoverInterface" type="AMF\EasyMenu\Model\Item\Mover"/>
+    <preference for="AMF\EasyMenuApi\Model\GetMaxPriorityInterface" type="AMF\EasyMenu\Model\ResourceModel\GetMaxPriority"/>
+    <preference for="AMF\EasyMenu\Model\Locator\LocatorInterface" type="AMF\EasyMenu\Model\Locator\RegistryLocator"/>
+    <preference for="AMF\EasyMenu\Model\Item\UrlBuilderInterface" type="AMF\EasyMenu\Model\Item\UrlBuilder"/>
+    <preference for="AMF\EasyMenu\Model\Item\Command\DeleteInterface" type="AMF\EasyMenu\Model\Item\Command\Delete"/>
+    <preference for="AMF\EasyMenu\Model\Item\Command\GetListInterface" type="AMF\EasyMenu\Model\Item\Command\GetList"/>
+    <preference for="AMF\EasyMenu\Model\Item\Command\GetInterface" type="AMF\EasyMenu\Model\Item\Command\Get"/>
+    <preference for="AMF\EasyMenu\Model\Item\Command\SaveInterface" type="AMF\EasyMenu\Model\Item\Command\Save"/>
+
+    <type name="Magento\Theme\Block\Html\Topmenu">
+        <plugin name="catalogTopmenu" disabled="true" />
+        <plugin name="easyMenuTopMenu" type="AMF\EasyMenu\Plugin\Catalog\Block\TopMenu" />
+    </type>
+
+    <type name="AMF\EasyMenu\Model\Item\UrlProvider\Pool">
+        <arguments>
+            <argument name="urlProviders" xsi:type="array">
+                <item name="category" xsi:type="string">AMF\EasyMenu\Model\Item\UrlProvider\CategoryUrlProvider</item>
+                <item name="cms" xsi:type="string">AMF\EasyMenu\Model\Item\UrlProvider\CmsPageUrlProvider</item>
+                <item name="external" xsi:type="string">AMF\EasyMenu\Model\Item\UrlProvider\ExternalUrlProvider</item>
+            </argument>
+        </arguments>
+    </type>
+</config>

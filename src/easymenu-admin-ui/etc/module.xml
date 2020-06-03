@@ -3,7 +3,7 @@
     <module name="AMF_EasyMenuAdminUi" setup_version="1.0.0">
         <sequence>
             <module name="Magento_Catalog" />
-            <module name="AMF_EasyMenuAdminApi"/>
+            <module name="AMF_EasyMenuApi"/>
         </sequence>
     </module>
 </config>

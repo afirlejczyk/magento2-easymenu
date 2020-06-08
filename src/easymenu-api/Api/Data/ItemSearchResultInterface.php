@@ -11,7 +11,7 @@ namespace AMF\EasyMenuApi\Api\Data;
  *
  * @api
  */
-interface ItemSearchResultInterface extends \Magento\Framework\Api\Search\SearchResultInterface
+interface ItemSearchResultInterface extends \Magento\Framework\Api\SearchResultsInterface
 {
     /**
      * Get stocks list
@@ -27,5 +27,5 @@ interface ItemSearchResultInterface extends \Magento\Framework\Api\Search\Search
      *
      * @return void
      */
-    public function setItems(array $items = null);
+    public function setItems(array $items);
 }

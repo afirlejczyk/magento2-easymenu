@@ -9,12 +9,18 @@ use AMF\EasyMenu\Model\ResourceModel\Item\Collection;
 use AMF\EasyMenu\Model\ResourceModel\Item\CollectionFactory;
 use AMF\EasyMenuApi\Api\Data\ItemSearchResultInterface;
 use Magento\Framework\Api\SearchCriteriaInterface;
+use \Magento\Framework\Api\SearchCriteria\CollectionProcessorInterface;
 
 /**
  * @inheritdoc
  */
 class GetList implements GetListInterface
 {
+    /**
+     * @var CollectionProcessorInterface
+     */
+    private $collectionProcessor;
+
     /**
      * @var CollectionFactory
      */
@@ -28,14 +34,17 @@ class GetList implements GetListInterface
     /**
      * GetList constructor.
      *
-     * @param CollectionFactory $stockCollectionFactory
+     * @param CollectionProcessorInterface $collectionProcessor
+     * @param CollectionFactory $itemCollectionFactory
      * @param ItemSearchResultFactory $itemSearchResult
      */
     public function __construct(
-        CollectionFactory $stockCollectionFactory,
+        CollectionProcessorInterface $collectionProcessor,
+        CollectionFactory $itemCollectionFactory,
         ItemSearchResultFactory $itemSearchResult
     ) {
-        $this->itemCollectionFactory = $stockCollectionFactory;
+        $this->collectionProcessor = $collectionProcessor;
+        $this->itemCollectionFactory = $itemCollectionFactory;
         $this->itemSearchResultsFactory = $itemSearchResult;
     }
 
@@ -46,6 +55,7 @@ class GetList implements GetListInterface
     {
         /** @var Collection $collection */
         $collection = $this->itemCollectionFactory->create();
+        $this->collectionProcessor->process($searchCriteria, $collection);
 
         /** @var ItemSearchResultInterface $searchResult */
         $searchResult = $this->itemSearchResultsFactory->create();

@@ -14,7 +14,6 @@ use AMF\EasyMenuApi\Api\Data\ItemSearchResultInterface;
 use Magento\Framework\Api\SearchCriteriaInterface;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\NoSuchEntityException;
-use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -66,14 +65,11 @@ class ItemRepositoryTest extends TestCase
         $this->item = $this->getMockBuilder(ItemInterface::class)->getMock();
         $this->searchResult = $this->getMockBuilder(ItemSearchResultInterface::class)->getMock();
 
-        $this->itemRepository = (new ObjectManager($this))->getObject(
-            ItemRepository::class,
-            [
-                'commandSave' => $this->commandSave,
-                'commandGet' => $this->commandGet,
-                'commandGetList' => $this->commandGetList,
-                'commandDelete' => $this->commandDelete,
-            ]
+        $this->itemRepository = new ItemRepository(
+            $this->commandDelete,
+            $this->commandGetList,
+            $this->commandGet,
+            $this->commandSave
         );
     }
 
@@ -81,7 +77,6 @@ class ItemRepositoryTest extends TestCase
     {
         $itemId = 2;
         $this->commandSave
-            ->expects($this->once())
             ->method('execute')
             ->with($this->item)
             ->willReturn($itemId);
@@ -96,7 +91,6 @@ class ItemRepositoryTest extends TestCase
     public function testSaveWithCouldNotSaveException()
     {
         $this->commandSave
-            ->expects($this->once())
             ->method('execute')
             ->with($this->item)
             ->willThrowException(new CouldNotSaveException(__('Some error')));
@@ -108,7 +102,6 @@ class ItemRepositoryTest extends TestCase
     {
         $itemId = 2;
         $this->commandGet
-            ->expects($this->once())
             ->method('execute')
             ->with($itemId)
             ->willReturn($this->item);
@@ -124,7 +117,6 @@ class ItemRepositoryTest extends TestCase
     {
         $itemId = 2;
         $this->commandGet
-            ->expects($this->once())
             ->method('execute')
             ->with($itemId)
             ->willThrowException(new NoSuchEntityException(__('Some error')));
@@ -137,7 +129,6 @@ class ItemRepositoryTest extends TestCase
         $searchCriteria = $this->getMockBuilder(SearchCriteriaInterface::class)->getMock();
 
         $this->commandGetList
-            ->expects($this->once())
             ->method('execute')
             ->with($searchCriteria)
             ->willReturn($this->searchResult);

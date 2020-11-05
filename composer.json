@@ -1,5 +1,5 @@
 {
-  "name": "afirlejczyk/magento2-easymenu-new",
+  "name": "afirlejczyk/magento2-easymenu",
   "description": "Magento 2 Easy Menu",
   "type": "magento2-module",
   "authors": [
@@ -13,12 +13,14 @@
     "files": [
       "src/easymenu-admin-ui/registration.php",
       "src/easymenu-api/registration.php",
-      "src/easymenu/registration.php"
+      "src/easymenu/registration.php",
+      "src/easymenu-graphql/registration.php"
     ],
     "psr-4": {
       "AMF\\EasyMenu\\": "src/easymenu",
       "AMF\\EasyMenuApi\\": "src/easymenu-api",
-      "AMF\\EasyMenuAdminUi\\": "src/easymenu-admin-ui"
+      "AMF\\EasyMenuAdminUi\\": "src/easymenu-admin-ui",
+      "AMF\\EasyMenuGraphql\\": "src/easymenu-graphql"
     }
   }
 }

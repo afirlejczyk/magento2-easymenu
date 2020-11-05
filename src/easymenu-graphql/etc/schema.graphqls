@@ -1,0 +1,20 @@
+interface EasyMenuItemInterface @typeResolver(class: "AMF\\EasyMenuGraphql\\Model\\EasyMenuItemInterfaceResolver") {
+    id: Int @doc(description: "The ID number assigned to the item.")
+    name: String @doc(description: "The item title.")
+    parent_id: Int
+    is_active: Boolean
+    priority: Int
+    type: String
+    value: String
+}
+
+type EasyMenuTree implements EasyMenuItemInterface @doc(description: "MenuTree defines all custom menu information") {
+    items: [EasyMenuTree]
+}
+
+type Query {
+    menuTree (
+        store_id: Int @doc(description: "Store Id")
+    ): EasyMenuTree
+    @resolver(class: "AMF\\EasyMenuGraphql\\Model\\Resolver\\MenuTree")
+}

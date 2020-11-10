@@ -8,6 +8,9 @@
       "role": "Developer"
     }
   ],
+  "require": {
+    "php": ">=7.1.*"
+  },
   "minimum-stability": "dev",
   "autoload": {
     "files": [

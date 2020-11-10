@@ -83,13 +83,10 @@ class PageUrlProvider
      */
     private function buildSearchCriteria(int $storeId, array $cmsPageIdentifiers): SearchCriteria
     {
-        $storeIdValue = implode(
-            self::VALUE_DELIMITER,
-            [
-                0,
-                $storeId,
-            ]
-        );
+        $storeIdValue = [
+            0,
+            $storeId,
+        ];
 
         $searchCriteria = $this->searchCriteriaBuilder;
         $searchCriteria->addFilter(PageInterface::IS_ACTIVE, 1);

@@ -50,7 +50,7 @@ class ChangeParent
         try {
             $newParent = $newParent instanceof ItemInterface ? (int) $newParent->getId() : 0;
 
-            $priority = $this->processPriority($menuItem, $newParent, $afterMenuItemId);
+            $priority = $this->processPriority($menuItem, $newParent, (int) $afterMenuItemId);
             $this->updateMenuItem($menuItem, $newParent, $priority);
             $connection->commit();
         } catch (\Exception $exception) {
@@ -159,14 +159,14 @@ class ChangeParent
             return self::DEFAULT_PRIORITY;
         }
 
-        $table = $this->resource->getTableName(Item::TABLE_NAME_MENU_ITEM);
         $connection = $this->resource->getConnection();
-        $select = $connection->select()
-            ->from($table, ItemInterface::PRIORITY)
-            ->where('item_id = :item_id');
-        $priority = (int) $connection->fetchOne($select, ['item_id' => $afterMenuItemId]);
-        $priority++;
 
-        return $priority;
+        $select = $connection->select()
+            ->from($this->resource->getTableName(Item::TABLE_NAME_MENU_ITEM), ItemInterface::PRIORITY)
+            ->where('item_id = :item_id');
+
+        $priority = (int) $connection->fetchOne($select, ['item_id' => $afterMenuItemId]);
+
+        return ++$priority;
     }
 }

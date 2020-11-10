@@ -72,7 +72,7 @@ class Mover implements ItemMoverInterface
      * @throws Exception
      * @throws LocalizedException
      */
-    public function move(ItemInterface $menuItem, int $parentId, int $afterMenuItemId): void
+    public function move(ItemInterface $menuItem, ?int $parentId, ?int $afterMenuItemId): void
     {
         $parent = null;
 

@@ -22,7 +22,7 @@ interface ItemMoverInterface
      */
     public function move(
         ItemInterface $menuItem,
-        int $parentId,
-        int $afterMenuItemId
+        ?int $parentId,
+        ?int $afterMenuItemId
     ): void;
 }

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace AMF\EasyMenu\Model\Item;
 
 use AMF\EasyMenuApi\Api\Data\ItemInterface;
-
 use AMF\EasyMenu\Model\Item\UrlBuilderInterfaceFactory;
 
 /**

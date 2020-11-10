@@ -35,10 +35,9 @@ class GetMaxPriority implements GetMaxPriorityInterface
      */
     public function execute(int $storeId, int $parentId): int
     {
-        $table = $this->resource->getTableName(Item::TABLE_NAME_MENU_ITEM);
         $connection = $this->resource->getConnection();
 
-        $select = $connection->select()->from($table, []);
+        $select = $connection->select()->from($this->resource->getTableName(Item::TABLE_NAME_MENU_ITEM), []);
 
         if ($parentId) {
             $select->where('parent_id = ?', $parentId);
@@ -48,12 +47,6 @@ class GetMaxPriority implements GetMaxPriorityInterface
             $select->columns(['count' => new \Zend_Db_Expr('count(priority)')]);
         }
 
-        $result = $connection->fetchOne($select);
-
-        if (null === $result) {
-            return 0;
-        }
-
-        return (int) $result;
+        return (int) $connection->fetchOne($select);
     }
 }

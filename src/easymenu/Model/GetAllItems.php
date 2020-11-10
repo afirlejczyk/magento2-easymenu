@@ -51,7 +51,7 @@ class GetAllItems implements GetAllItemsInterface
      *
      * @return ItemSearchResultInterface
      */
-    public function execute(int $storeId, bool $onlyActive = false): ItemSearchResultInterface
+    public function execute(int $storeId, bool $onlyActive): ItemSearchResultInterface
     {
         if (! isset($this->cacheItemInstance[$storeId])) {
             $collection = $this->getCollection($storeId, $onlyActive);
@@ -69,7 +69,7 @@ class GetAllItems implements GetAllItemsInterface
      *
      * @return Collection
      */
-    private function getCollection(int $storeId, bool $onlyActive = false): Collection
+    private function getCollection(int $storeId, bool $onlyActive): Collection
     {
         /** @var Collection $collection */
         $collection = $this->itemCollectionFactory->create();

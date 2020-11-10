@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace AMF\EasyMenuApi\Api;
 
 use AMF\EasyMenuApi\Api\Data\ItemInterface;
+use Magento\Framework\Exception\NoSuchEntityException;
 
 /**
  * In Magento 2 Repository considered as an implementation of Facade pattern which provides a simplified interface
@@ -47,7 +48,7 @@ interface ItemRepositoryInterface
      *
      * @return \AMF\EasyMenuApi\Api\Data\ItemInterface
      *
-     * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
     public function get($itemId): ItemInterface;
 

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace AMF\EasyMenuTest\Unit\Model;
+namespace AMF\EasyMenu\Test\Unit\Model;
 
 use AMF\EasyMenu\Model\Item\Command\DeleteInterface;
 use AMF\EasyMenu\Model\Item\Command\GetInterface;

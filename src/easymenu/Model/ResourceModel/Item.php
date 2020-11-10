@@ -32,7 +32,8 @@ class Item extends AbstractDb
     public function getChildrenIds(AbstractModel $item): array
     {
         $connection = $this->getConnection();
-        $select = $connection->select()->from($this->getMainTable(), [ItemInterface::ITEM_ID])
+        $select = $this->getConnection()->select()
+            ->from($this->getMainTable(), [ItemInterface::ITEM_ID])
             ->where('item_id = ?', $item->getId());
 
         return $connection->fetchCol($select);
@@ -83,15 +84,12 @@ class Item extends AbstractDb
      */
     private function updateChildren(AbstractModel $item): void
     {
-        $childId = $this->getChildrenIds($item);
-        $parentId = $item->getParentId();
-
         $connection = $this->getConnection();
-        $where = $connection->prepareSqlCondition('item_id', ['in' => $childId]);
+        $where = $connection->prepareSqlCondition('item_id', ['in' => $this->getChildrenIds($item)]);
 
         $connection->update(
             $this->getMainTable(),
-            ['parent_id' => $parentId],
+            ['parent_id' => $item->getParentId()],
             $where
         );
     }

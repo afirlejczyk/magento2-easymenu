@@ -109,33 +109,6 @@ class Builder
     }
 
     /**
-     * Retrieve Store
-     *
-     * @param RequestInterface $request
-     *
-     * @return \Magento\Store\Api\Data\StoreInterface
-     *
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
-     */
-    private function getStore(RequestInterface $request): StoreInterface
-    {
-        $defaultStoreId = $this->getDefaultStoreId();
-        $storeId = (int) $request->getParam('store', $defaultStoreId);
-
-        return $this->storeManager->getStore($storeId);
-    }
-
-    /**
-     * Retrieve default store ID
-     *
-     * @return int
-     */
-    private function getDefaultStoreId(): int
-    {
-        return (int) $this->storeManager->getDefaultStoreView()->getId();
-    }
-
-    /**
      * Create empty menu item
      *
      * @param RequestInterface $request
@@ -156,5 +129,22 @@ class Builder
         $menuItem->setStore((int) $store->getId());
 
         return $menuItem;
+    }
+
+    /**
+     * Retrieve Store
+     *
+     * @param RequestInterface $request
+     *
+     * @return \Magento\Store\Api\Data\StoreInterface
+     *
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     */
+    private function getStore(RequestInterface $request): StoreInterface
+    {
+        $defaultStoreId = (int) $this->storeManager->getDefaultStoreView()->getId();
+        $storeId = (int) $request->getParam('store', $defaultStoreId);
+
+        return $this->storeManager->getStore($storeId);
     }
 }

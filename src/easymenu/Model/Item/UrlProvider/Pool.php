@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace AMF\EasyMenu\Model\Item\UrlProvider;
 
+use AMF\EasyMenu\Exception\UrlProviderNotExistException;
 use AMF\EasyMenu\Model\Item\UrlProvider\Factory as ProviderFactory;
 use AMF\EasyMenu\Model\Item\UrlProviderInterface;
+use Magento\Framework\Exception\LocalizedException;
 
 /**
  * Return URL provider for given type
@@ -39,14 +41,14 @@ class Pool
      *
      * @param string $type
      *
-     * @return UrlProviderInterface|null
+     * @return UrlProviderInterface
      */
-    public function get(string $type): ?UrlProviderInterface
+    public function get(string $type): UrlProviderInterface
     {
         if (isset($this->urlProviders[$type])) {
             return $this->providerFactory->create($this->urlProviders[$type]);
         }
 
-        return null;
+        throw new UrlProviderNotExistException($type);
     }
 }

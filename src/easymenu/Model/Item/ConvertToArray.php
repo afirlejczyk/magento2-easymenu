@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace AMF\EasyMenu\Model\Item;
 
 use AMF\EasyMenuApi\Api\Data\ItemInterface;
+use AMF\EasyMenuApi\Model\Item\ConvertToArrayInterface;
 
 /**
  * @inheritdoc
  */
-class ConvertToArray implements \AMF\EasyMenuApi\Model\Item\ConvertToArrayInterface
+class ConvertToArray implements ConvertToArrayInterface
 {
     /**
      * @var UrlResolver

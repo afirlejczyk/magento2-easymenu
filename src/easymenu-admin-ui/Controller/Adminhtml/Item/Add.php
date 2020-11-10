@@ -69,16 +69,6 @@ class Add extends Item implements HttpGetActionInterface
     }
 
     /**
-     * Retrieve default store ID
-     *
-     * @return int
-     */
-    public function getDefaultStoreId(): int
-    {
-        return (int) $this->storeManager->getDefaultStoreView()->getId();
-    }
-
-    /**
      * Redirect user
      *
      * @return Redirect
@@ -90,7 +80,7 @@ class Add extends Item implements HttpGetActionInterface
 
         return $resultRedirect->setPath(
             'easymenu/item/add',
-            ['store' => $this->getDefaultStoreId()]
+            ['store' => $this->storeManager->getDefaultStoreView()->getId()]
         );
     }
 }

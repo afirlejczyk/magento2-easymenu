@@ -109,11 +109,11 @@ class Mover implements ItemMoverInterface
      *
      * @param int $itemId
      *
-     * @return ItemInterface|null
+     * @return ItemInterface
      *
      * @throws LocalizedException
      */
-    private function getItemById(int $itemId): ?ItemInterface
+    private function getItemById(int $itemId): ItemInterface
     {
         try {
             return $this->itemRepository->get($itemId);

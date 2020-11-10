@@ -34,51 +34,57 @@ class UrlBuilder implements UrlBuilderInterface
     private $itemsByType = [];
 
     /**
+     * @var int
+     */
+    private $storeId;
+
+    /**
      * UrlBuilder constructor.
      *
      * @param GetAllItemsInterface $itemManagement
      * @param Pool $pool
+     * @param int $storeId
      */
     public function __construct(
         GetAllItemsInterface $itemManagement,
-        Pool $pool
+        Pool $pool,
+        int $storeId
     ) {
         $this->getAllItems = $itemManagement;
         $this->pool = $pool;
+        $this->storeId = $storeId;
     }
 
     /**
-     * @param int $storeId
+     * Retrieve urls for active menu items, result is group by item id
      *
      * @return array
      */
-    public function getUrlsForActiveItems(int $storeId): array
+    public function getUrlsForActiveItems(): array
     {
-        $searchResult = $this->getAllItems->execute($storeId, true);
+        $searchResult = $this->getAllItems->execute($this->storeId, true);
         $items = $searchResult->getItems();
 
         $this->groupItemsById(...$items);
-        $this->loadUrls($storeId);
+        $this->loadUrls();
 
-        $urls = [];
+        $urlByItemId = [];
 
         foreach ($items as $item) {
-            $urls[$item->getId()] = $this->urlsByType[$item->getTypeId()][$item->getId()] ?? '';
+            $urlByItemId[$item->getId()] = $this->urlsByType[$item->getTypeId()][$item->getId()] ?? '';
         }
 
-        return $urls;
+        return $urlByItemId;
     }
 
     /**
      * Load Items Urls
-     *
-     * @param int $storeId
      */
-    private function loadUrls(int $storeId): void
+    private function loadUrls(): void
     {
         foreach ($this->itemsByType as $type => $items) {
             $urlProvider = $this->pool->get($type);
-            $this->urlsByType[$type] = $urlProvider->loadAll($storeId, ...$items);
+            $this->urlsByType[$type] = $urlProvider->loadAll($this->storeId, ...$items);
         }
     }
 

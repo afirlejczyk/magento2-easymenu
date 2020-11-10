@@ -6,29 +6,31 @@ namespace AMF\EasyMenu\Model\Item;
 
 use AMF\EasyMenuApi\Api\Data\ItemInterface;
 
+use AMF\EasyMenu\Model\Item\UrlBuilderInterfaceFactory;
+
 /**
  * Resolve url for specific Menu Item
  */
 class UrlResolver
 {
     /**
-     * @var UrlBuilderInterface
+     * @var UrlBuilderInterfaceFactory
      */
-    private $urlBuilder;
+    private $urlBuilderFactory;
 
     /**
-     * @var
+     * @var array
      */
     private $urlById;
 
     /**
      * UrlResolver constructor.
      *
-     * @param UrlBuilderInterface $urlBuilder
+     * @param UrlBuilderInterfaceFactory $urlBuilder
      */
-    public function __construct(UrlBuilderInterface $urlBuilder)
+    public function __construct(UrlBuilderInterfaceFactory $urlBuilder)
     {
-        $this->urlBuilder = $urlBuilder;
+        $this->urlBuilderFactory = $urlBuilder;
     }
 
     /**
@@ -40,8 +42,10 @@ class UrlResolver
      */
     public function getUrl(ItemInterface $item): string
     {
-        if ($this->urlById === null) {
-            $this->urlById = $this->urlBuilder->getUrlsForActiveItems($item->getStoreId());
+        if (null === $this->urlById) {
+            /** @var UrlBuilderInterface $urlBuilder */
+            $urlBuilder = $this->urlBuilderFactory->create(['storeId' => $item->getStoreId()]);
+            $this->urlById = $urlBuilder->getUrlsForActiveItems();
         }
 
         return $this->urlById[$item->getId()];

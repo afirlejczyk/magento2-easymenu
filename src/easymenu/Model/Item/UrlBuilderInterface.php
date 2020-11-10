@@ -12,9 +12,7 @@ interface UrlBuilderInterface
     /**
      * Retrieve url for active menu items
      *
-     * @param int $storeId
-     *
      * @return array
      */
-    public function getUrlsForActiveItems(int $storeId): array;
+    public function getUrlsForActiveItems(): array;
 }

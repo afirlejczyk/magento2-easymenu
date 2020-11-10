@@ -69,13 +69,7 @@ class Item
      */
     private function addTopLevelClasses(int $level): array
     {
-        $classes = [];
-
-        if ($level === 0) {
-            $classes[] = 'level-top';
-        }
-
-        return $classes;
+        return $level === 0 ? ['level-top'] : [];
     }
 
     /**

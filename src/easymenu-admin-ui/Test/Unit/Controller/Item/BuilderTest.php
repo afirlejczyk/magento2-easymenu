@@ -68,7 +68,7 @@ class BuilderTest extends \PHPUnit\Framework\TestCase
     /**
      *
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->requestMock = $this->createMock(Http::class);
         $this->itemMock = $this->createMock(ItemInterface::class);

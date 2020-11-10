@@ -13,6 +13,8 @@ use Magento\Framework\App\ResourceConnection;
  */
 class ChangeParent
 {
+    private const DEFAULT_PRIORITY = 1;
+
     /**
      * @var ResourceConnection
      */
@@ -39,8 +41,8 @@ class ChangeParent
      */
     public function execute(
         ItemInterface $menuItem,
-        ?ItemInterface $newParent = null,
-        ?int $afterMenuItemId = null
+        ?ItemInterface $newParent,
+        ?int $afterMenuItemId
     ) {
         $connection = $this->resource->getConnection();
         $connection->beginTransaction();
@@ -66,19 +68,14 @@ class ChangeParent
      */
     private function updateMenuItem(ItemInterface $menuItem, int $parentId, int $priority): void
     {
-        $table = $this->resource->getTableName(Item::TABLE_NAME_MENU_ITEM);
         $connection = $this->resource->getConnection();
 
-        /**
-         * Update moved item data
-         */
-        $data = [
-            ItemInterface::PARENT_ID => $parentId,
-            ItemInterface::PRIORITY => $priority,
-        ];
         $connection->update(
-            $table,
-            $data,
+            $this->resource->getTableName(Item::TABLE_NAME_MENU_ITEM),
+            [
+                ItemInterface::PARENT_ID => $parentId,
+                ItemInterface::PRIORITY => $priority,
+            ],
             ['item_id = ?' => $menuItem->getId()]
         );
         $menuItem->setParentId($parentId);
@@ -98,7 +95,10 @@ class ChangeParent
     {
         $this->updatePriorityForPreviousParent($menuItem);
 
-        return $this->updatePriorityForNewParent($newParentId, $afterMenuItemId);
+        $priority = $this->calculatePriority($afterMenuItemId);
+        $this->updatePriorityForNewParent($newParentId, $afterMenuItemId, $priority);
+
+        return $priority;
     }
 
     /**
@@ -128,24 +128,22 @@ class ChangeParent
      *
      * @param int $newParentId
      * @param int $afterMenuItemId
+     * @param int $priority
      *
-     * @return int
+     * @return void
      */
-    private function updatePriorityForNewParent(int $newParentId, int $afterMenuItemId): int
+    private function updatePriorityForNewParent(int $newParentId, int $afterMenuItemId, int $priority): void
     {
-        $table = $this->resource->getTableName(Item::TABLE_NAME_MENU_ITEM);
         $connection = $this->resource->getConnection();
         $priorityField = $connection->quoteIdentifier(ItemInterface::PRIORITY);
-        $priority = $this->calculatePriority($afterMenuItemId);
 
         $bind = [ItemInterface::PRIORITY => new \Zend_Db_Expr($priorityField . ' + 1')];
         $where = [
             'parent_id = ?' => $newParentId,
             $priorityField . ' >= ?' => $priority,
         ];
-        $connection->update($table, $bind, $where);
 
-        return $priority;
+        $connection->update($this->resource->getTableName(Item::TABLE_NAME_MENU_ITEM), $bind, $where);
     }
 
     /**
@@ -157,20 +155,17 @@ class ChangeParent
      */
     private function calculatePriority(int $afterMenuItemId): int
     {
-        $priority = 1;
-
-        /**
-         * Prepare priority value
-         */
-        if ($afterMenuItemId) {
-            $table = $this->resource->getTableName(Item::TABLE_NAME_MENU_ITEM);
-            $connection = $this->resource->getConnection();
-            $select = $connection->select()
-                ->from($table, ItemInterface::PRIORITY)
-                ->where('item_id = :item_id');
-            $priority = (int) $connection->fetchOne($select, ['item_id' => $afterMenuItemId]);
-            $priority++;
+        if (!$afterMenuItemId) {
+            return self::DEFAULT_PRIORITY;
         }
+
+        $table = $this->resource->getTableName(Item::TABLE_NAME_MENU_ITEM);
+        $connection = $this->resource->getConnection();
+        $select = $connection->select()
+            ->from($table, ItemInterface::PRIORITY)
+            ->where('item_id = :item_id');
+        $priority = (int) $connection->fetchOne($select, ['item_id' => $afterMenuItemId]);
+        $priority++;
 
         return $priority;
     }

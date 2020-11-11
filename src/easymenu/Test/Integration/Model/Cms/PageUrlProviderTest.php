@@ -36,8 +36,8 @@ class PageUrlProviderTest extends TestCase
     {
         $cmsUrls = $this->pageUrlProvider->execute($storeId, [$pageId]);
 
-        $this->assertArrayHasKey($pageId, $cmsUrls);
-        $this->assertContains($pageIdentifier, $cmsUrls[$pageId]);
+        self::assertArrayHasKey($pageId, $cmsUrls);
+        self::assertContains($pageIdentifier, $cmsUrls[$pageId]);
     }
 
     /**

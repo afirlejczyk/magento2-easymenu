@@ -57,6 +57,6 @@ class UrlResolverTest extends TestCase
             ->with(['storeId' => self::STORE_ID])
             ->willReturn($this->urlBuilder);
 
-        $this->assertEquals($url, $this->urlResolver->getUrl($this->item));
+        self::assertEquals($url, $this->urlResolver->getUrl($this->item));
     }
 }

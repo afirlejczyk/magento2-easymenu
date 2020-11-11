@@ -35,15 +35,15 @@ class FactoryTest extends TestCase
     {
         $className = 'ClassName';
         $this->objectManagerMock->method('get')->with($className)->willReturn($this->urlProviderMock);
-        $this->assertEquals($this->urlProviderMock, $this->factory->create($className));
+        self::assertEquals($this->urlProviderMock, $this->factory->create($className));
     }
 
     public function testCannotGetUrlProviderInterface()
     {
         $className = 'ClassName';
 
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage(sprintf('%s doesnt\t implement %s', $className, UrlProviderInterface::class));
+        self::expectException(\InvalidArgumentException::class);
+        self::expectExceptionMessage(sprintf('%s doesnt\t implement %s', $className, UrlProviderInterface::class));
 
         $this->factory->create($className);
     }

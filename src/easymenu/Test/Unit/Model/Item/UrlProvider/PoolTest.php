@@ -38,7 +38,7 @@ class PoolTest extends TestCase
             ->with($typeClass)
             ->willReturn($this->urlProviderMock);
 
-        $this->assertEquals($this->urlProviderMock, $pool->get($typeName));
+        self::assertEquals($this->urlProviderMock, $pool->get($typeName));
     }
 
     public function testCannotGetUrlProviderInterface()
@@ -55,6 +55,6 @@ class PoolTest extends TestCase
         $this->expectException(UrlProviderNotExistException::class);
         $this->expectExceptionMessage(sprintf('Url provider for %s wasn\'t found', $typeName));
 
-        $this->assertEquals($this->urlProviderMock, $pool->get($typeName));
+        self::assertEquals($this->urlProviderMock, $pool->get($typeName));
     }
 }

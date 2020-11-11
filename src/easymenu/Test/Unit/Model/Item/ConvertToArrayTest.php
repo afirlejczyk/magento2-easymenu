@@ -43,7 +43,7 @@ class ConvertToArrayTest extends TestCase
         $this->item->method('getId')->willReturn($itemId);
         $this->item->method('getName')->willReturn($name);
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 'id' => $itemId,
                 'url' => $url,

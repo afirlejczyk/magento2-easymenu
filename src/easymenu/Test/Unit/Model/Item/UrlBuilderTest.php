@@ -88,6 +88,6 @@ class UrlBuilderTest extends TestCase
                 $result
             );
 
-        $this->assertEquals($result, $this->urlBuilder->getUrlsForActiveItems());
+        self::assertEquals($result, $this->urlBuilder->getUrlsForActiveItems());
     }
 }

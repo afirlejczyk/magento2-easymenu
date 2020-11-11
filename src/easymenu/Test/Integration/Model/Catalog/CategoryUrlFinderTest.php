@@ -33,8 +33,8 @@ class CategoryUrlFinderTest extends TestCase
     {
         $categoryUrl = $this->urlFinder->getCategoryUrlList($storeId, [$categoryId]);
 
-        $this->assertArrayHasKey($categoryId, $categoryUrl);
-        $this->assertContains($requestPath, $categoryUrl[$categoryId]);
+        self::assertArrayHasKey($categoryId, $categoryUrl);
+        self::assertContains($requestPath, $categoryUrl[$categoryId]);
     }
 
     /**

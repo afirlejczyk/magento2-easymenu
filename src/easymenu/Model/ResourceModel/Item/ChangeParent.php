@@ -13,8 +13,6 @@ use Magento\Framework\App\ResourceConnection;
  */
 class ChangeParent
 {
-    private const DEFAULT_PRIORITY = 1;
-
     /**
      * @var ResourceConnection
      */
@@ -71,7 +69,7 @@ class ChangeParent
         $connection = $this->resource->getConnection();
 
         $connection->update(
-            $this->resource->getTableName(Item::TABLE_NAME_MENU_ITEM),
+            $this->getMenuItemTable(),
             [
                 ItemInterface::PARENT_ID => $parentId,
                 ItemInterface::PRIORITY => $priority,
@@ -96,7 +94,7 @@ class ChangeParent
         $this->updatePriorityForPreviousParent($menuItem);
 
         $priority = $this->calculatePriority($afterMenuItemId);
-        $this->updatePriorityForNewParent($newParentId, $afterMenuItemId, $priority);
+        $this->updatePriorityForNewParent($newParentId, $priority);
 
         return $priority;
     }
@@ -110,7 +108,6 @@ class ChangeParent
      */
     private function updatePriorityForPreviousParent(ItemInterface $menuItem): void
     {
-        $table = $this->resource->getTableName(Item::TABLE_NAME_MENU_ITEM);
         $connection = $this->resource->getConnection();
         $priorityField = $connection->quoteIdentifier(ItemInterface::PRIORITY);
 
@@ -120,19 +117,18 @@ class ChangeParent
             $priorityField . ' > ?' => $menuItem->getPriority(),
         ];
 
-        $connection->update($table, $bind, $where);
+        $connection->update($this->getMenuItemTable(), $bind, $where);
     }
 
     /**
      * Update priority for items with new parent
      *
      * @param int $newParentId
-     * @param int $afterMenuItemId
      * @param int $priority
      *
      * @return void
      */
-    private function updatePriorityForNewParent(int $newParentId, int $afterMenuItemId, int $priority): void
+    private function updatePriorityForNewParent(int $newParentId, int $priority): void
     {
         $connection = $this->resource->getConnection();
         $priorityField = $connection->quoteIdentifier(ItemInterface::PRIORITY);
@@ -143,7 +139,7 @@ class ChangeParent
             $priorityField . ' >= ?' => $priority,
         ];
 
-        $connection->update($this->resource->getTableName(Item::TABLE_NAME_MENU_ITEM), $bind, $where);
+        $connection->update($this->getMenuItemTable(), $bind, $where);
     }
 
     /**
@@ -155,18 +151,24 @@ class ChangeParent
      */
     private function calculatePriority(int $afterMenuItemId): int
     {
-        if (!$afterMenuItemId) {
-            return self::DEFAULT_PRIORITY;
-        }
-
         $connection = $this->resource->getConnection();
 
         $select = $connection->select()
-            ->from($this->resource->getTableName(Item::TABLE_NAME_MENU_ITEM), ItemInterface::PRIORITY)
+            ->from($this->getMenuItemTable(), ItemInterface::PRIORITY)
             ->where('item_id = :item_id');
 
         $priority = (int) $connection->fetchOne($select, ['item_id' => $afterMenuItemId]);
 
         return ++$priority;
+    }
+
+    /**
+     * Retrieve menu item table name
+     *
+     * @return string
+     */
+    private function getMenuItemTable(): string
+    {
+        return $this->resource->getTableName(Item::TABLE_NAME_MENU_ITEM);
     }
 }

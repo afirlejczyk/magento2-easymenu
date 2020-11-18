@@ -1,6 +1,6 @@
 <?php
 
-namespace AMF\EasyMenuAdminUi\Test\Ui\Component\Item\Form;
+namespace AMF\EasyMenuAdminUi\Test\Unit\Ui\Component\Item\Form;
 
 use AMF\EasyMenuAdminUi\Model\Locator\LocatorInterface;
 use AMF\EasyMenuAdminUi\Ui\Component\Item\Form\CmsPageOptions;

@@ -101,10 +101,15 @@ class CmsPageOptions implements OptionSourceInterface
      */
     private function getSearchCriteria(): SearchCriteriaInterface
     {
-        $storeId = (string) $this->locator->getStore()->getId();
+        $storeId = (int) $this->locator->getStore()->getId();
         /** @var SearchCriteriaBuilder $searchCriteriaBuilder */
         $searchCriteriaBuilder = $this->searchCriteriaBuilderFactory->create();
-        $searchCriteriaBuilder->addFilter('store_id', '0, ' . $storeId, 'in');
+
+        $searchCriteriaBuilder->addFilter(
+            'store_id',
+            [0, $storeId],
+            'in'
+        );
 
         return $searchCriteriaBuilder->create();
     }

@@ -20,7 +20,6 @@ class LinkType implements OptionSourceInterface
     public function toOptionArray()
     {
         $result = [];
-
         foreach ($this->toArray() as $value => $label) {
             $result[] = [
                 'value' => $value,

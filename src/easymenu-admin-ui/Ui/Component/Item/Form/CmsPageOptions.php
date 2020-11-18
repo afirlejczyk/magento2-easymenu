@@ -6,8 +6,9 @@ namespace AMF\EasyMenuAdminUi\Ui\Component\Item\Form;
 
 use AMF\EasyMenuAdminUi\Model\Locator\LocatorInterface;
 use Magento\Cms\Api\PageRepositoryInterface;
-use Magento\Framework\Api\SearchCriteria;
 use Magento\Framework\Api\SearchCriteriaBuilder;
+use Magento\Framework\Api\SearchCriteriaBuilderFactory;
+use Magento\Framework\Api\SearchCriteriaInterface;
 use Magento\Framework\Data\OptionSourceInterface;
 use Magento\Framework\Exception\LocalizedException;
 
@@ -22,9 +23,9 @@ class CmsPageOptions implements OptionSourceInterface
     private $pageRepository;
 
     /**
-     * @var SearchCriteriaBuilder
+     * @var SearchCriteriaBuilderFactory
      */
-    private $searchCriteriaBuilder;
+    private $searchCriteriaBuilderFactory;
 
     /**
      * @var array|null
@@ -39,17 +40,17 @@ class CmsPageOptions implements OptionSourceInterface
     /**
      * CmsPageOptions constructor.
      *
-     * @param SearchCriteriaBuilder $searchCriteriaBuilder
+     * @param SearchCriteriaBuilderFactory $searchCriteriaBuilderFactory
      * @param LocatorInterface $locator
      * @param PageRepositoryInterface $pageRepository
      */
     public function __construct(
-        SearchCriteriaBuilder $searchCriteriaBuilder,
+        SearchCriteriaBuilderFactory $searchCriteriaBuilderFactory,
         LocatorInterface $locator,
         PageRepositoryInterface $pageRepository
     ) {
         $this->pageRepository = $pageRepository;
-        $this->searchCriteriaBuilder = $searchCriteriaBuilder;
+        $this->searchCriteriaBuilderFactory = $searchCriteriaBuilderFactory;
         $this->locator = $locator;
     }
 
@@ -78,17 +79,13 @@ class CmsPageOptions implements OptionSourceInterface
      */
     private function getCmsPages(): array
     {
+        $pageSearchResults = $this->pageRepository->getList($this->getSearchCriteria());
         $pageList = [];
 
-        $searchCriteria = $this->getSearchCriteria();
-        $collection = $this->pageRepository->getList($searchCriteria);
-
         /** @var \Magento\Cms\Model\Page $page */
-        foreach ($collection->getItems() as $page) {
-            $pageId = $page->getId();
-
+        foreach ($pageSearchResults->getItems() as $page) {
             $pageList[] = [
-                'value' => $pageId,
+                'value' => $page->getId(),
                 'label' => $page->getTitle(),
                 'is_active' => $page->isActive(),
             ];
@@ -100,14 +97,15 @@ class CmsPageOptions implements OptionSourceInterface
     /**
      * Retrieve Search Criteria
      *
-     * @return SearchCriteria
+     * @return SearchCriteriaInterface
      */
-    private function getSearchCriteria(): SearchCriteria
+    private function getSearchCriteria(): SearchCriteriaInterface
     {
         $storeId = (string) $this->locator->getStore()->getId();
-        $searchCriteria = $this->searchCriteriaBuilder;
-        $searchCriteria->addFilter('store_id', '0, ' . $storeId, 'in');
+        /** @var SearchCriteriaBuilder $searchCriteriaBuilder */
+        $searchCriteriaBuilder = $this->searchCriteriaBuilderFactory->create();
+        $searchCriteriaBuilder->addFilter('store_id', '0, ' . $storeId, 'in');
 
-        return $searchCriteria->create();
+        return $searchCriteriaBuilder->create();
     }
 }

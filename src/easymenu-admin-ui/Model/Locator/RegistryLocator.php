@@ -50,7 +50,11 @@ class RegistryLocator implements LocatorInterface
     {
         $menuItem = $this->itemRegistry->get();
 
-        return $menuItem ?? throw new NotFoundException(__('Menu Item was not registered'));
+        if ($menuItem) {
+            return $menuItem;
+        }
+
+        throw new NotFoundException(__('Menu Item was not registered'));
     }
 
     /**
@@ -64,6 +68,10 @@ class RegistryLocator implements LocatorInterface
     {
         $store = $this->storeRegistry->get();
 
-        return $store ?? throw new NotFoundException(__('Store was not registered'));
+        if ($store) {
+            return $store;
+        }
+
+        throw new NotFoundException(__('Store was not registered'));
     }
 }

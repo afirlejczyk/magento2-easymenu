@@ -43,7 +43,7 @@ class Tree implements MenuTreeInterface
      */
     public function getMenuTree(int $storeId): Node
     {
-        $menuItems = $this->getItems->execute($storeId);
+        $menuItems = $this->getItems->execute($storeId, false);
 
         return $this->buildTree->buildMenuTree($menuItems);
     }

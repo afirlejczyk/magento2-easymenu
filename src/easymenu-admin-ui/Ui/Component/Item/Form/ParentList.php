@@ -75,7 +75,7 @@ class ParentList implements OptionSourceInterface
     private function buildParentTree(): void
     {
         $storeId = (int) $this->locator->getStore()->getId();
-        $searchResult = $this->getAllItems->execute($storeId);
+        $searchResult = $this->getAllItems->execute($storeId, false);
 
         $items = $searchResult->getItems();
         $this->menuItems = $this->getTreeRootNode();

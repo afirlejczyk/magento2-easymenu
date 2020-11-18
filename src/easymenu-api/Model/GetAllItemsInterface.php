@@ -19,5 +19,5 @@ interface GetAllItemsInterface
      *
      * @return ItemSearchResultInterface
      */
-    public function execute(int $storeId, bool $onlyActive = false): ItemSearchResultInterface;
+    public function execute(int $storeId, bool $onlyActive): ItemSearchResultInterface;
 }

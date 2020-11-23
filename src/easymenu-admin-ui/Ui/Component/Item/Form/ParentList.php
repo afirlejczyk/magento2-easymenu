@@ -77,11 +77,9 @@ class ParentList implements OptionSourceInterface
         $storeId = (int) $this->locator->getStore()->getId();
         $searchResult = $this->getAllItems->execute($storeId, false);
 
-        $items = $searchResult->getItems();
         $this->menuItems = $this->getTreeRootNode();
 
-        /** @var ItemInterface $item */
-        foreach ($items as $item) {
+        foreach ($searchResult->getItems() as $item) {
             $this->addItemData($item);
         }
     }

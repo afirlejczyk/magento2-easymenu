@@ -4,7 +4,7 @@
  Drag&Drop built in it gives you the ability to easily stack and arrange menu items. 
 
 ## Compatibility
-* Module was tested on Magento 2.2.0.
+* Module was tested on Magento 2.3.5
 
 ## CLI usage:
 * There is no CLI commands.

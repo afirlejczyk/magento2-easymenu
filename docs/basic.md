@@ -18,7 +18,7 @@ Open the composer.json in the Magento 2 root folder add
 Go to the ssh console at the Magento 2 root folder, 
 next please enter the command line 
 
-```composer require afirlejczyk/magento2-easymenu dev-master```
+```composer require amf/magento2-easymenu```
 
 #### Enable module ans run EasyMenu setup
  

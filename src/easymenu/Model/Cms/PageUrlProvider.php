@@ -16,11 +16,6 @@ use Magento\Framework\UrlInterface;
 class PageUrlProvider
 {
     /**
-     * @const string
-     */
-    private const VALUE_DELIMITER = ', ';
-
-    /**
      * @var SearchCriteriaBuilder
      */
     private $searchCriteriaBuilder;
@@ -83,19 +78,10 @@ class PageUrlProvider
      */
     private function buildSearchCriteria(int $storeId, array $cmsPageIdentifiers): SearchCriteria
     {
-        $storeIdValue = [
-            0,
-            $storeId,
-        ];
-
         $searchCriteria = $this->searchCriteriaBuilder;
         $searchCriteria->addFilter(PageInterface::IS_ACTIVE, 1);
-        $searchCriteria->addFilter(PageInterface::PAGE_ID, implode(',', $cmsPageIdentifiers), 'in');
-        $searchCriteria->addFilter(
-            'store_id',
-            $storeIdValue,
-            'in'
-        );
+        $searchCriteria->addFilter(PageInterface::PAGE_ID, $cmsPageIdentifiers, 'in');
+        $searchCriteria->addFilter('store_id', [0, $storeId], 'in');
 
         return $searchCriteria->create();
     }

@@ -26,29 +26,21 @@ class PageUrlProviderTest extends TestCase
 
     /**
      * @magentoDataFixture loadCmsPages
-     * @dataProvider findDataProvider
-     *
-     * @param int $pageId
-     * @param string $pageIdentifier
-     * @param int $storeId
      */
-    public function testLoadPageUrl(int $pageId, string $pageIdentifier, int $storeId)
+    public function testLoadMultiplePages()
     {
-        $cmsUrls = $this->pageUrlProvider->execute($storeId, [$pageId]);
-
-        self::assertArrayHasKey($pageId, $cmsUrls);
-        self::assertContains($pageIdentifier, $cmsUrls[$pageId]);
-    }
-
-    /**
-     * @return array
-     */
-    public function findDataProvider(): array
-    {
-        return [
-            [100, 'page100', 1],
-            [101, 'page_design_blank', 1],
+        $pages = [
+            ['id' => 100, 'identifier' => 'page100'],
+            ['id' => 101, 'identifier' =>  'page_design_blank'],
         ];
+
+        $cmsUrls = $this->pageUrlProvider->execute(1, array_column($pages, 'id'));
+
+        foreach ($pages as $page) {
+            ['id' => $pageId, 'identifier' => $pageIdentifier] = $page;
+            self::assertArrayHasKey($pageId, $cmsUrls);
+            self::assertContains($pageIdentifier, $cmsUrls[$pageId]);
+        }
     }
 
     /**

@@ -30,7 +30,7 @@ class MenuTree
      */
     public function getDataByStoreId(int $storeId): array
     {
-        $easyMenu = $this->getAllItems->execute($storeId);
+        $easyMenu = $this->getAllItems->execute($storeId, true);
 
         return $this->buildMenuTree($easyMenu->getItems());
     }

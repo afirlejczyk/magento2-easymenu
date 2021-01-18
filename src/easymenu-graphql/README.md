@@ -3,10 +3,10 @@
 **CatalogGraphQl** provides type and resolver information for the GraphQl module
 to generate menu information endpoints.
 
-### Get menu tree for given store
+### Get menu tree
 ```
 {
-  menuTree (store_id: 1) {
+  menuTree {
     items {
       name
       id

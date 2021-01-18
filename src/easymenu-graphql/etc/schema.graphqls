@@ -13,8 +13,6 @@ type EasyMenuTree implements EasyMenuItemInterface @doc(description: "MenuTree d
 }
 
 type Query {
-    menuTree (
-        store_id: Int @doc(description: "Store Id")
-    ): EasyMenuTree
-    @resolver(class: "AMF\\EasyMenuGraphql\\Model\\Resolver\\MenuTree")
+    menuTree: EasyMenuTree
+        @resolver(class: "AMF\\EasyMenuGraphql\\Model\\Resolver\\MenuTree")
 }

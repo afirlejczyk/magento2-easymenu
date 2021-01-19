@@ -53,12 +53,19 @@ class GetAllItems implements GetAllItemsInterface
      */
     public function execute(int $storeId, bool $onlyActive): ItemSearchResultInterface
     {
-        if (! isset($this->cacheItemInstance[$storeId])) {
+        $cacheKey = $this->generateCacheKey($storeId, $onlyActive);
+
+        if (! isset($this->cacheItemInstance[$cacheKey])) {
             $collection = $this->getCollection($storeId, $onlyActive);
-            $this->cacheItemInstance[$storeId] = $this->createSearchResult($collection);
+            $this->cacheItemInstance[$cacheKey] = $this->createSearchResult($collection);
         }
 
-        return $this->cacheItemInstance[$storeId];
+        return $this->cacheItemInstance[$cacheKey];
+    }
+
+    private function generateCacheKey(int $storeId, bool $onlyActive): string
+    {
+        return $storeId . '_' . (int)$onlyActive;
     }
 
     /**

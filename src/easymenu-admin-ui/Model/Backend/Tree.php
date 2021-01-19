@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace AMF\EasyMenu\Model\Backend;
+namespace AMF\EasyMenuAdminUi\Model\Backend;
 
 use AMF\EasyMenuApi\Model\BuildTreeInterface;
 use AMF\EasyMenuApi\Model\GetAllItemsInterface;

@@ -85,7 +85,7 @@ class BuilderTest extends \PHPUnit\Framework\TestCase
             ->getMock();
 
         $this->itemRepositoryMock =  $this->getMockBuilder(ItemRepositoryInterface::class)
-            ->onlyMethods(['get'])
+            ->setMethods(['get'])
             ->disableOriginalConstructor()
             ->getMockForAbstractClass();
 

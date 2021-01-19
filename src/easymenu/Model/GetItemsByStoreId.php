@@ -7,12 +7,12 @@ namespace AMF\EasyMenu\Model;
 use AMF\EasyMenu\Model\ResourceModel\Item\Collection;
 use AMF\EasyMenu\Model\ResourceModel\Item\CollectionFactory;
 use AMF\EasyMenuApi\Api\Data\ItemSearchResultInterface;
-use AMF\EasyMenuApi\Model\GetAllItemsInterface;
+use AMF\EasyMenuApi\Model\GetItemsByStoreIdInterface;
 
 /**
  * {@inheritDoc}
  */
-class GetAllItems implements GetAllItemsInterface
+class GetItemsByStoreId implements GetItemsByStoreIdInterface
 {
     /**
      * @var ItemSearchResultInterface[]
@@ -47,23 +47,43 @@ class GetAllItems implements GetAllItemsInterface
      * Get All Items for given store
      *
      * @param int $storeId
-     * @param bool $onlyActive
      *
      * @return ItemSearchResultInterface
      */
-    public function execute(int $storeId, bool $onlyActive): ItemSearchResultInterface
+    public function getActive(int $storeId): ItemSearchResultInterface
     {
-        $cacheKey = $this->generateCacheKey($storeId, $onlyActive);
+        $cacheKey = $this->getCacheKey($storeId, true);
 
         if (! isset($this->cacheItemInstance[$cacheKey])) {
-            $collection = $this->getCollection($storeId, $onlyActive);
+            $collection = $this->getCollection($storeId, true);
             $this->cacheItemInstance[$cacheKey] = $this->createSearchResult($collection);
         }
 
         return $this->cacheItemInstance[$cacheKey];
     }
 
-    private function generateCacheKey(int $storeId, bool $onlyActive): string
+    /**
+     * @param int $storeId
+     * @return ItemSearchResultInterface
+     */
+    public function getAll(int $storeId): ItemSearchResultInterface
+    {
+        $cacheKey = $this->getCacheKey($storeId, false);
+
+        if (! isset($this->cacheItemInstance[$cacheKey])) {
+            $collection = $this->getCollection($storeId, false);
+            $this->cacheItemInstance[$cacheKey] = $this->createSearchResult($collection);
+        }
+
+        return $this->cacheItemInstance[$cacheKey];
+    }
+
+    /**
+     * @param int $storeId
+     * @param bool $onlyActive
+     * @return string
+     */
+    private function getCacheKey(int $storeId, bool $onlyActive): string
     {
         return $storeId . '_' . (int)$onlyActive;
     }
@@ -72,7 +92,6 @@ class GetAllItems implements GetAllItemsInterface
      * Get Items collection
      *
      * @param int $storeId
-     * @param bool $onlyActive
      *
      * @return Collection
      */
@@ -80,10 +99,9 @@ class GetAllItems implements GetAllItemsInterface
     {
         /** @var Collection $collection */
         $collection = $this->itemCollectionFactory->create();
-        $collection
-            ->addStoreFilter($storeId)
-            ->setOrder(Item::PARENT_ID, 'ASC')
-            ->setOrder(Item::PRIORITY, 'ASC');
+        $collection->addStoreFilter($storeId);
+        $collection->setOrder(Item::PARENT_ID, 'ASC');
+        $collection->setOrder(Item::PRIORITY, 'ASC');
 
         if ($onlyActive) {
             $collection->addActiveFilter();

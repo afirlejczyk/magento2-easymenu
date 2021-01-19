@@ -6,7 +6,7 @@ namespace AMF\EasyMenuAdminUi\Ui\Component\Item\Form;
 
 use AMF\EasyMenuAdminUi\Model\Locator\LocatorInterface;
 use AMF\EasyMenuApi\Api\Data\ItemInterface;
-use AMF\EasyMenuApi\Model\GetAllItemsInterface;
+use AMF\EasyMenuApi\Model\GetItemsByStoreIdInterface;
 use Magento\Framework\Data\OptionSourceInterface;
 
 /**
@@ -15,9 +15,9 @@ use Magento\Framework\Data\OptionSourceInterface;
 class ParentList implements OptionSourceInterface
 {
     /**
-     * @var GetAllItemsInterface
+     * @var GetItemsByStoreIdInterface
      */
-    private $getAllItems;
+    private $getItemsByStoreId;
 
     /**
      * @var LocatorInterface
@@ -33,14 +33,14 @@ class ParentList implements OptionSourceInterface
      * ParentList constructor.
      *
      * @param LocatorInterface $locator
-     * @param GetAllItemsInterface $getAllItems
+     * @param GetItemsByStoreIdInterface $getItemsByStoreId
      */
     public function __construct(
         LocatorInterface $locator,
-        GetAllItemsInterface $getAllItems
+        GetItemsByStoreIdInterface $getItemsByStoreId
     ) {
         $this->locator = $locator;
-        $this->getAllItems = $getAllItems;
+        $this->getItemsByStoreId = $getItemsByStoreId;
     }
 
     /**
@@ -75,7 +75,7 @@ class ParentList implements OptionSourceInterface
     private function buildParentTree(): void
     {
         $storeId = (int) $this->locator->getStore()->getId();
-        $searchResult = $this->getAllItems->execute($storeId, false);
+        $searchResult = $this->getItemsByStoreId->getAll($storeId);
 
         $this->menuItems = $this->getTreeRootNode();
 

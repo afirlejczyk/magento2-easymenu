@@ -3,7 +3,7 @@
 namespace AMF\EasyMenuGraphql\Model\DataProvider;
 
 use AMF\EasyMenuApi\Api\Data\ItemInterface;
-use AMF\EasyMenuApi\Model\GetAllItemsInterface;
+use AMF\EasyMenuApi\Model\GetItemsByStoreIdInterface;
 
 /**
  * EasyMenu Tree data provider
@@ -11,17 +11,17 @@ use AMF\EasyMenuApi\Model\GetAllItemsInterface;
 class MenuTree
 {
     /**
-     * @var GetAllItemsInterface
+     * @var GetItemsByStoreIdInterface
      */
-    private $getAllItems;
+    private $getItemsByStoreId;
 
     /**
      * MenuTree constructor.
-     * @param GetAllItemsInterface $getAllItems
+     * @param GetItemsByStoreIdInterface $getAllItems
      */
-    public function __construct(GetAllItemsInterface $getAllItems)
+    public function __construct(GetItemsByStoreIdInterface $getAllItems)
     {
-        $this->getAllItems = $getAllItems;
+        $this->getItemsByStoreId = $getAllItems;
     }
 
     /**
@@ -30,7 +30,7 @@ class MenuTree
      */
     public function getDataByStoreId(int $storeId): array
     {
-        $easyMenu = $this->getAllItems->execute($storeId, true);
+        $easyMenu = $this->getItemsByStoreId->getActive($storeId);
 
         return $this->buildMenuTree($easyMenu->getItems());
     }
@@ -45,7 +45,7 @@ class MenuTree
 
         foreach ($items as $item) {
             $item = $this->convertItemData($item);
-            $parentId = $item['parent_id'];
+            $parentId = $item[ItemInterface::PARENT_ID];
             $id = $item['id'];
 
             if ($parentId == 0) {

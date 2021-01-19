@@ -6,7 +6,7 @@ namespace AMF\EasyMenu\Model\Item;
 
 use AMF\EasyMenu\Model\Item\UrlProvider\Pool;
 use AMF\EasyMenuApi\Api\Data\ItemInterface;
-use AMF\EasyMenuApi\Model\GetAllItemsInterface;
+use AMF\EasyMenuApi\Model\GetItemsByStoreIdInterface;
 
 /**
  * @inheritdoc
@@ -19,9 +19,9 @@ class UrlBuilder implements UrlBuilderInterface
     private $pool;
 
     /**
-     * @var GetAllItemsInterface
+     * @var GetItemsByStoreIdInterface
      */
-    private $getAllItems;
+    private $getItemsByStoreId;
 
     /**
      * @var array
@@ -41,16 +41,16 @@ class UrlBuilder implements UrlBuilderInterface
     /**
      * UrlBuilder constructor.
      *
-     * @param GetAllItemsInterface $itemManagement
+     * @param GetItemsByStoreIdInterface $getItemsByStoreId
      * @param Pool $pool
      * @param int $storeId
      */
     public function __construct(
-        GetAllItemsInterface $itemManagement,
+        GetItemsByStoreIdInterface $getItemsByStoreId,
         Pool $pool,
         int $storeId
     ) {
-        $this->getAllItems = $itemManagement;
+        $this->getItemsByStoreId = $getItemsByStoreId;
         $this->pool = $pool;
         $this->storeId = $storeId;
     }
@@ -62,7 +62,7 @@ class UrlBuilder implements UrlBuilderInterface
      */
     public function getUrlsForActiveItems(): array
     {
-        $searchResult = $this->getAllItems->execute($this->storeId, true);
+        $searchResult = $this->getItemsByStoreId->getActive($this->storeId);
         $items = $searchResult->getItems();
 
         $this->groupItemsById(...$items);

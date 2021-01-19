@@ -3,7 +3,7 @@
     <preference for="AMF\EasyMenuApi\Api\Data\ItemInterface" type="AMF\EasyMenu\Model\Item" />
     <preference for="AMF\EasyMenuApi\Api\ItemRepositoryInterface" type="AMF\EasyMenu\Model\ItemRepository" />
     <preference for="AMF\EasyMenuApi\Api\Data\ItemSearchResultInterface" type="AMF\EasyMenu\Model\ItemSearchResult"/>
-    <preference for="AMF\EasyMenuApi\Model\GetAllItemsInterface" type="AMF\EasyMenu\Model\GetAllItems"/>
+    <preference for="AMF\EasyMenuApi\Model\GetItemsByStoreIdInterface" type="AMF\EasyMenu\Model\GetItemsByStoreId"/>
     <preference for="AMF\EasyMenuApi\Model\MenuTreeInterface" type="AMF\EasyMenu\Model\Tree"/>
     <preference for="AMF\EasyMenuApi\Model\BuildTreeInterface" type="AMF\EasyMenu\Model\BuildMenuTree"/>
     <preference for="AMF\EasyMenuApi\Model\Item\ConvertToArrayInterface" type="AMF\EasyMenu\Model\Item\ConvertToArray" />

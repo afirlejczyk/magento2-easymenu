@@ -9,15 +9,16 @@ use AMF\EasyMenuApi\Api\Data\ItemSearchResultInterface;
 /**
  * Retrieve menu items for given store
  */
-interface GetAllItemsInterface
+interface GetItemsByStoreIdInterface
 {
     /**
-     * Get All Items for given store
+     * Get All active menu items for given store
      *
      * @param int $storeId
-     * @param bool $onlyActive
      *
      * @return ItemSearchResultInterface
      */
-    public function execute(int $storeId, bool $onlyActive): ItemSearchResultInterface;
+    public function getActive(int $storeId): ItemSearchResultInterface;
+
+    public function getAll(int $storeId): ItemSearchResultInterface;
 }

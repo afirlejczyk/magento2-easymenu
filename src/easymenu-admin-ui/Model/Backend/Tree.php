@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace AMF\EasyMenuAdminUi\Model\Backend;
 
 use AMF\EasyMenuApi\Model\BuildTreeInterface;
-use AMF\EasyMenuApi\Model\GetAllItemsInterface;
+use AMF\EasyMenuApi\Model\GetItemsByStoreIdInterface;
 use AMF\EasyMenuApi\Model\MenuTreeInterface;
 use Magento\Framework\Data\Tree\Node;
 
@@ -15,9 +15,9 @@ use Magento\Framework\Data\Tree\Node;
 class Tree implements MenuTreeInterface
 {
     /**
-     * @var GetAllItemsInterface
+     * @var GetItemsByStoreIdInterface
      */
-    private $getItems;
+    private $getItemsByStoreId;
 
     /**
      * @var BuildTreeInterface
@@ -27,15 +27,15 @@ class Tree implements MenuTreeInterface
     /**
      * Edit constructor.
      *
-     * @param GetAllItemsInterface $itemManagement
+     * @param GetItemsByStoreIdInterface $getItemsByStoreId
      * @param BuildTreeInterface $buildTree
      */
     public function __construct(
-        GetAllItemsInterface $itemManagement,
+        GetItemsByStoreIdInterface $getItemsByStoreId,
         BuildTreeInterface $buildTree
     ) {
         $this->buildTree = $buildTree;
-        $this->getItems = $itemManagement;
+        $this->getItemsByStoreId = $getItemsByStoreId;
     }
 
     /**
@@ -43,7 +43,7 @@ class Tree implements MenuTreeInterface
      */
     public function getMenuTree(int $storeId): Node
     {
-        $menuItems = $this->getItems->execute($storeId, false);
+        $menuItems = $this->getItemsByStoreId->getAll($storeId);
 
         return $this->buildTree->buildMenuTree($menuItems);
     }

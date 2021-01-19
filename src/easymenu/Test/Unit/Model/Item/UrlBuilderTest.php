@@ -14,7 +14,7 @@ use AMF\EasyMenu\Model\Item\UrlProviderInterface;
 use AMF\EasyMenu\Model\ItemRepository;
 use AMF\EasyMenuApi\Api\Data\ItemInterface;
 use AMF\EasyMenuApi\Api\Data\ItemSearchResultInterface;
-use AMF\EasyMenuApi\Model\GetAllItemsInterface;
+use AMF\EasyMenuApi\Model\GetItemsByStoreIdInterface;
 use Magento\Framework\Api\SearchCriteriaInterface;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\NoSuchEntityException;
@@ -36,8 +36,8 @@ class UrlBuilderTest extends TestCase
     /** @var ItemSearchResultInterface|\PHPUnit_Framework_MockObject_MockObject */
     private $searchResult;
 
-    /** @var GetAllItemsInterface */
-    private $getAllItems;
+    /** @var GetItemsByStoreIdInterface */
+    private $getActiveItems;
 
     /** @var Pool */
     private $pool;
@@ -51,11 +51,11 @@ class UrlBuilderTest extends TestCase
         $this->item = $this->getMockBuilder(ItemInterface::class)->getMock();
 
         $this->pool = $this->createMock(Pool::class);
-        $this->getAllItems = $this->createMock(GetAllItemsInterface::class);
+        $this->getActiveItems = $this->createMock(GetItemsByStoreIdInterface::class);
         $this->urlProvider = $this->createMock(UrlProviderInterface::class);
 
         $this->urlBuilder = new UrlBuilder(
-            $this->getAllItems,
+            $this->getActiveItems,
             $this->pool,
             self::STORE_ID
         );
@@ -70,7 +70,7 @@ class UrlBuilderTest extends TestCase
         $this->item->method('getId')->willReturn($itemId);
 
         $this->searchResult->method('getItems')->willReturn([$this->item]);
-        $this->getAllItems->method('execute')->with(1, true)->willReturn($this->searchResult);
+        $this->getActiveItems->method('execute')->with(1, true)->willReturn($this->searchResult);
         $this->pool->method('get')->with($type)->willReturn($this->urlProvider);
 
         $result = [

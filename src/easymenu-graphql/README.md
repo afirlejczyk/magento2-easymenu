@@ -10,10 +10,14 @@ to generate menu information endpoints.
     items {
       name
       id
+      url
+      type
       parent_id
       items {
         name
         id
+        url
+        type
         parent_id
         is_active
         value

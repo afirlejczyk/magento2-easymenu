@@ -3,6 +3,7 @@ interface EasyMenuItemInterface @typeResolver(class: "AMF\\EasyMenuGraphql\\Mode
     name: String @doc(description: "The item title.")
     parent_id: Int
     is_active: Boolean
+    url: String
     priority: Int
     type: String
     value: String

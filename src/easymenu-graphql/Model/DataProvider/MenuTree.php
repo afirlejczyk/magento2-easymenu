@@ -2,6 +2,7 @@
 
 namespace AMF\EasyMenuGraphql\Model\DataProvider;
 
+use AMF\EasyMenu\Model\Item\UrlResolver;
 use AMF\EasyMenuApi\Api\Data\ItemInterface;
 use AMF\EasyMenuApi\Model\GetItemsByStoreIdInterface;
 
@@ -16,12 +17,19 @@ class MenuTree
     private $getItemsByStoreId;
 
     /**
-     * MenuTree constructor.
-     * @param GetItemsByStoreIdInterface $getAllItems
+     * @var UrlResolver
      */
-    public function __construct(GetItemsByStoreIdInterface $getAllItems)
+    private $urlResolver;
+
+    /**
+     * MenuTree constructor.
+     * @param GetItemsByStoreIdInterface $getItemsByStoreId
+     * @param UrlResolver $urlResolver
+     */
+    public function __construct(GetItemsByStoreIdInterface $getItemsByStoreId, UrlResolver $urlResolver)
     {
-        $this->getItemsByStoreId = $getAllItems;
+        $this->getItemsByStoreId = $getItemsByStoreId;
+        $this->urlResolver = $urlResolver;
     }
 
     /**
@@ -56,7 +64,6 @@ class MenuTree
             }
         }
 
-
         return $treeStructure;
     }
 
@@ -70,6 +77,7 @@ class MenuTree
     {
         return [
             'id' => $menuItem->getId(),
+            'url' => $this->urlResolver->getUrl($menuItem),
             ItemInterface::TYPE => $menuItem->getTypeId(),
             ItemInterface::NAME => $menuItem->getName(),
             ItemInterface::VALUE => $menuItem->getValue(),

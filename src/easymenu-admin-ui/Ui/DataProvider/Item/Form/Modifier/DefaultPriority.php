@@ -7,7 +7,6 @@ use AMF\EasyMenuAdminUi\Model\Locator\LocatorInterface;
 use AMF\EasyMenuApi\Api\Data\ItemInterface;
 use AMF\EasyMenuApi\Model\GetMaxPriorityInterface;
 
-use Magento\Framework\Stdlib\ArrayManager;
 use Magento\Ui\DataProvider\Modifier\ModifierInterface;
 
 /**
@@ -21,11 +20,6 @@ class DefaultPriority implements ModifierInterface
     private $locator;
 
     /**
-     * @var ArrayManager
-     */
-    private $arrayManager;
-
-    /**
      * @var GetMaxPriorityInterface
      */
     private $getMaxPriority;
@@ -33,16 +27,13 @@ class DefaultPriority implements ModifierInterface
     /**
      * Priority constructor.
      *
-     * @param ArrayManager $arrayManager
      * @param LocatorInterface $locator
      * @param GetMaxPriorityInterface $itemResource
      */
     public function __construct(
-        ArrayManager $arrayManager,
         LocatorInterface $locator,
         GetMaxPriorityInterface $itemResource
     ) {
-        $this->arrayManager = $arrayManager;
         $this->getMaxPriority = $itemResource;
         $this->locator = $locator;
     }
@@ -80,7 +71,7 @@ class DefaultPriority implements ModifierInterface
         $priority = $this->getMaxPriority->execute($this->getStoreId(), $parent) + 1;
         $priorityFieldName = ItemInterface::PRIORITY;
 
-        $meta['general']['children'][$priorityFieldName]['arguments']['data']['config'] = ['default' => $priority];
+        $meta['general']['children'][$priorityFieldName]['arguments']['data']['config']['default'] = $priority;
 
         return $meta;
     }

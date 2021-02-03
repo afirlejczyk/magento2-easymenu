@@ -22,7 +22,7 @@ class RegistryLocatorTest extends TestCase
     private $itemRegistry;
     /** @var StoreRegistry|\PHPUnit\Framework\MockObject\MockObject  */
     private $storeRegistry;
-
+    /** @var RegistryLocator */
     private $registryLocator;
 
     protected function setUp()

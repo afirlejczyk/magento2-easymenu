@@ -65,35 +65,29 @@ class ParentList implements ModifierInterface
     private function addParentField(array $meta): array
     {
         $menuItem = $this->locator->getMenuItem();
-        $parentField = ItemInterface::PARENT_ID;
         $options = $this->parentOptions->toOptionArray();
 
         $isParentFieldVisible = $this->isParentFieldVisible($menuItem, $options);
 
-        $meta['general']['children'][$parentField]['arguments']['data']['options'] = $options;
-        $meta['general']['children'][$parentField]['arguments']['data'] = [
+        $meta['general']['children'][ItemInterface::PARENT_ID]['arguments']['data'] = [
             'options' => $options,
-            'config' => $this->getParentListConfiguration($isParentFieldVisible),
+            'config' => $this->getParentListConfiguration(
+                $isParentFieldVisible,
+                $this->addDefaultValue()
+            ),
         ];
-
-        if (! $menuItem->getId()) {
-            $meta = $this->addParentDefaultValue($meta);
-        }
 
         return $meta;
     }
 
     /**
-     * @param array $meta
-     *
-     * @return array
+     * @return bool
      */
-    private function addParentDefaultValue(array $meta)
+    private function addDefaultValue(): bool
     {
-        $parentField = ItemInterface::PARENT_ID;
-        $meta['general']['children'][$parentField]['arguments']['data']['config']['value'] = $this->getParentId();
+        $menuItem = $this->locator->getMenuItem();
 
-        return $meta;
+        return !$menuItem->getId();
     }
 
     /**
@@ -106,19 +100,17 @@ class ParentList implements ModifierInterface
      */
     private function isParentFieldVisible(ItemInterface $menuItem, array $options): bool
     {
-        return $menuItem->getId() || count($options) ? true : false;
+        return $menuItem->getId() || count($options);
     }
 
     /**
-     * Retrieve Parent List config options
-     *
      * @param bool $isParentFieldVisible
-     *
+     * @param bool $addDefaultValue
      * @return array
      */
-    private function getParentListConfiguration(bool $isParentFieldVisible): array
+    private function getParentListConfiguration(bool $isParentFieldVisible, bool $addDefaultValue): array
     {
-        return [
+        $parentListConfig = [
             'componentType' => Form\Field::NAME,
             'formElement' => Form\Element\Select::NAME,
             'dataType' => Form\Element\DataType\Text::NAME,
@@ -134,6 +126,13 @@ class ParentList implements ModifierInterface
             'visible' => $isParentFieldVisible,
             'validation' => ['required-entry' => true],
         ];
+
+
+        if ($addDefaultValue) {
+            $parentListConfig['value'] = $this->getParentId();
+        }
+
+        return $parentListConfig;
     }
 
     /**

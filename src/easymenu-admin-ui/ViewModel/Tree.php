@@ -9,12 +9,13 @@ use AMF\EasyMenuApi\Api\Data\ItemInterface;
 use AMF\EasyMenuApi\Model\MenuTreeInterface;
 use Magento\Framework\Data\Tree\Node;
 use Magento\Framework\Serialize\SerializerInterface;
+use Magento\Framework\View\Element\Block\ArgumentInterface;
 use Magento\Store\Api\Data\StoreInterface;
 
 /**
  * Class tree provide methods to build items tree in edit view
  */
-class Tree implements \Magento\Framework\View\Element\Block\ArgumentInterface
+class Tree implements ArgumentInterface
 {
     /**
      * @var LocatorInterface

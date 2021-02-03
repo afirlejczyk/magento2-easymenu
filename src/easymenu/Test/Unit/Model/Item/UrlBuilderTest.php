@@ -70,7 +70,7 @@ class UrlBuilderTest extends TestCase
         $this->item->method('getId')->willReturn($itemId);
 
         $this->searchResult->method('getItems')->willReturn([$this->item]);
-        $this->getActiveItems->method('execute')->with(1, true)->willReturn($this->searchResult);
+        $this->getActiveItems->method('getActive')->with(1)->willReturn($this->searchResult);
         $this->pool->method('get')->with($type)->willReturn($this->urlProvider);
 
         $result = [

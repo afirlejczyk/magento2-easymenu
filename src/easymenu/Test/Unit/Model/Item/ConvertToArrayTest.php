@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace AMF\EasyMenu\Test\Unit\Model;
+namespace AMF\EasyMenu\Test\Unit\Model\Item;
 
 use AMF\EasyMenu\Model\Item\ConvertToArray;
 use AMF\EasyMenu\Model\Item\UrlResolver;

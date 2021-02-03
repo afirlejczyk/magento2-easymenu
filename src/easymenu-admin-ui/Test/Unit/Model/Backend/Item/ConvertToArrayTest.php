@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace AMF\EasyMenu\Test\Unit\Model;
+namespace AMF\EasyMenuAdminUi\Test\Unit\Model;
 
 use AMF\EasyMenuAdminUi\Model\Backend\Item\ConvertToArray;
 use AMF\EasyMenuApi\Api\Data\ItemInterface;

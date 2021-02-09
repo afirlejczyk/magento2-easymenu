@@ -5,19 +5,17 @@ declare(strict_types=1);
 namespace AMF\EasyMenuAdminUi\Ui\DataProvider\Item\Form;
 
 use AMF\EasyMenuAdminUi\Model\Locator\LocatorInterface;
-use Magento\Framework\Api\FilterBuilder;
-use Magento\Framework\Api\Search\ReportingInterface;
-use Magento\Framework\Api\Search\SearchCriteriaBuilder;
-use Magento\Framework\App\RequestInterface;
+use AMF\EasyMenuAdminUi\Ui\DataProvider\Item\ValueFieldLookup;
+use AMF\EasyMenuApi\Api\Data\ItemInterface;
+use Magento\Framework\Api\Filter;
 use Magento\Framework\Exception\LocalizedException;
-use Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider as UiComponentDataProvider;
-use Magento\Ui\DataProvider\Modifier\ModifierInterface;
+use Magento\Ui\DataProvider\AbstractDataProvider;
 use Magento\Ui\DataProvider\Modifier\PoolInterface;
 
 /**
  * Form Item DataProvider
  */
-class ItemDataProvider extends UiComponentDataProvider
+class ItemDataProvider extends AbstractDataProvider
 {
     /**
      * @var LocatorInterface
@@ -30,46 +28,42 @@ class ItemDataProvider extends UiComponentDataProvider
     private $pool;
 
     /**
+     * @var ValueFieldLookup
+     */
+    private $valueLookup;
+
+    /**
      * ItemDataProvider constructor.
-     *
+     * @param PoolInterface $pool
+     * @param LocatorInterface $locator
+     * @param ValueFieldLookup $valueLookup
      * @param string $name
      * @param string $primaryFieldName
      * @param string $requestFieldName
-     * @param LocatorInterface $locator
-     * @param PoolInterface $pool
-     * @param ReportingInterface $reporting
-     * @param SearchCriteriaBuilder $searchCriteriaBuilder
-     * @param RequestInterface $request
-     * @param FilterBuilder $filterBuilder
      * @param array $meta
      * @param array $data
      */
     public function __construct(
+        PoolInterface $pool,
+        LocatorInterface $locator,
+        ValueFieldLookup $valueLookup,
         $name,
         $primaryFieldName,
         $requestFieldName,
-        LocatorInterface $locator,
-        PoolInterface $pool,
-        ReportingInterface $reporting,
-        SearchCriteriaBuilder $searchCriteriaBuilder,
-        RequestInterface $request,
-        FilterBuilder $filterBuilder,
         array $meta = [],
         array $data = []
     ) {
+
         parent::__construct(
             $name,
             $primaryFieldName,
             $requestFieldName,
-            $reporting,
-            $searchCriteriaBuilder,
-            $request,
-            $filterBuilder,
             $meta,
             $data
         );
 
         $this->locator = $locator;
+        $this->valueLookup = $valueLookup;
         $this->pool = $pool;
     }
 
@@ -80,17 +74,45 @@ class ItemDataProvider extends UiComponentDataProvider
     {
         $data = [];
         $menuItem = $this->locator->getMenuItem();
+        $data[$menuItem->getId()] = $this->convertToArray($menuItem);
 
-        if ($menuItem) {
-            $data[$menuItem->getId()] = $menuItem->getData();
-        };
-
-        /** @var ModifierInterface $modifier */
         foreach ($this->pool->getModifiersInstances() as $modifier) {
             $data = $modifier->modifyData($data);
         }
 
         return $data;
+    }
+
+    /**
+     * Disable for collection processing
+     *
+     * @param Filter $filter
+     * @return bool
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
+    public function addFilter(Filter $filter)
+    {
+        return null;
+    }
+
+    /**
+     * @param ItemInterface $menuItem
+     * @return array
+     */
+    private function convertToArray(ItemInterface $menuItem): array
+    {
+        $valueFieldName = $this->valueLookup->getValueFieldNameByType($menuItem->getTypeId());
+
+        return [
+            'item_id' => $menuItem->getId(),
+            'name' => $menuItem->getName(),
+            'store_id' => $menuItem->getStoreId(),
+            'priority' => $menuItem->getPriority(),
+            'parent_id' => $menuItem->getPriority(),
+            'type' => $menuItem->getTypeId(),
+            'is_active' => $menuItem->isActive() ? '1' : '0',
+            $valueFieldName => $menuItem->getValue(),
+        ];
     }
 
     /**
@@ -101,7 +123,6 @@ class ItemDataProvider extends UiComponentDataProvider
     {
         $meta = parent::getMeta();
 
-        /** @var ModifierInterface $modifier */
         foreach ($this->pool->getModifiersInstances() as $modifier) {
             $meta = $modifier->modifyMeta($meta);
         }

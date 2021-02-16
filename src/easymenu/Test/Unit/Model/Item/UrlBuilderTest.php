@@ -37,7 +37,7 @@ class UrlBuilderTest extends TestCase
     private $searchResult;
 
     /** @var GetItemsByStoreIdInterface */
-    private $getActiveItems;
+    private $getItemsByStoreId;
 
     /** @var Pool */
     private $pool;
@@ -51,11 +51,11 @@ class UrlBuilderTest extends TestCase
         $this->item = $this->getMockBuilder(ItemInterface::class)->getMock();
 
         $this->pool = $this->createMock(Pool::class);
-        $this->getActiveItems = $this->createMock(GetItemsByStoreIdInterface::class);
+        $this->getItemsByStoreId = $this->createMock(GetItemsByStoreIdInterface::class);
         $this->urlProvider = $this->createMock(UrlProviderInterface::class);
 
         $this->urlBuilder = new UrlBuilder(
-            $this->getActiveItems,
+            $this->getItemsByStoreId,
             $this->pool,
             self::STORE_ID
         );
@@ -70,7 +70,7 @@ class UrlBuilderTest extends TestCase
         $this->item->method('getId')->willReturn($itemId);
 
         $this->searchResult->method('getItems')->willReturn([$this->item]);
-        $this->getActiveItems->method('getActive')->with(1)->willReturn($this->searchResult);
+        $this->getItemsByStoreId->method('getActive')->with(1)->willReturn($this->searchResult);
         $this->pool->method('get')->with($type)->willReturn($this->urlProvider);
 
         $result = [

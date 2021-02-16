@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use AMF\EasyMenuAdminUi\Ui\Component\Item\Form\ParentList as ParentOptions;
+use AMF\EasyMenuAdminUi\Ui\Component\Item\Form\ParentListOptions as ParentOptions;
 use AMF\EasyMenuAdminUi\Model\Locator\LocatorInterface;
 use AMF\EasyMenuAdminUi\Ui\DataProvider\Item\Form\Modifier\ParentList;
 use AMF\EasyMenuApi\Api\Data\ItemInterface;

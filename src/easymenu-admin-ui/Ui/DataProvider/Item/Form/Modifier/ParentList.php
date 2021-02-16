@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace AMF\EasyMenuAdminUi\Ui\DataProvider\Item\Form\Modifier;
 
 use AMF\EasyMenuAdminUi\Model\Locator\LocatorInterface;
-use AMF\EasyMenuAdminUi\Ui\Component\Item\Form\ParentList as ParentOptions;
+use AMF\EasyMenuAdminUi\Ui\Component\Item\Form\ParentListOptions as ParentOptions;
 use AMF\EasyMenuApi\Api\Data\ItemInterface;
 use Magento\Ui\Component\Form;
 use Magento\Ui\DataProvider\Modifier\ModifierInterface;

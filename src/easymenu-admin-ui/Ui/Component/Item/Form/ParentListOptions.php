@@ -12,7 +12,7 @@ use Magento\Framework\Data\OptionSourceInterface;
 /**
  * Options for PatenList
  */
-class ParentList implements OptionSourceInterface
+class ParentListOptions implements OptionSourceInterface
 {
     /**
      * @var GetItemsByStoreIdInterface

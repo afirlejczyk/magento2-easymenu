@@ -43,8 +43,8 @@ class Tree implements MenuTreeInterface
      */
     public function getMenuTree(int $storeId): Node
     {
-        $menuItems = $this->getItemsByStoreId->getAll($storeId);
+        $itemsSearchResult = $this->getItemsByStoreId->getAll($storeId);
 
-        return $this->buildTree->buildMenuTree($menuItems);
+        return $this->buildTree->buildMenuTree($itemsSearchResult);
     }
 }

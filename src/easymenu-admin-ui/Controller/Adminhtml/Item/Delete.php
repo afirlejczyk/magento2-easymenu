@@ -88,13 +88,12 @@ class Delete extends Controller\Adminhtml\Item implements HttpPostActionInterfac
     private function redirect(ItemInterface $menuItem): Redirect
     {
         $parentId = $menuItem->getParentId();
-        $storeId = $menuItem->getStoreId();
 
         if ($parentId) {
             return $this->redirectToEditView($parentId);
         }
 
-        return $this->redirectToAddNewView($storeId);
+        return $this->redirectToAddNewView($menuItem->getStoreId());
     }
 
     /**

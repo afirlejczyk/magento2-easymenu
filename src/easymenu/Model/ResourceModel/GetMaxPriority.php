@@ -36,8 +36,8 @@ class GetMaxPriority implements GetMaxPriorityInterface
     public function execute(int $storeId, int $parentId): int
     {
         $connection = $this->resource->getConnection();
-
-        $select = $connection->select()->from($this->resource->getTableName(Item::TABLE_NAME_MENU_ITEM), []);
+        $select = $connection->select();
+        $select->from($this->resource->getTableName(Item::TABLE_NAME_MENU_ITEM), []);
 
         if ($parentId) {
             $select->where('parent_id = ?', $parentId);

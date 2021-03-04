@@ -10,8 +10,10 @@ use AMF\EasyMenuApi\Api\Data\ItemInterface;
 use AMF\EasyMenuApi\Api\Data\ItemInterfaceFactory;
 use AMF\EasyMenuApi\Api\ItemRepositoryInterface;
 use Magento\Framework\App\RequestInterface;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Store\Api\Data\StoreInterface;
 use Magento\Store\Model\StoreManagerInterface;
+use NoSuchStoreException;
 
 /**
  * Build a menu item based on a request
@@ -73,12 +75,12 @@ class Builder
      *
      * @return ItemInterface
      *
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @throws NoSuchStoreException
      */
     public function build(RequestInterface $request): ItemInterface
     {
         $menuItem = $this->getMenuItem($request);
-        $store = $this->storeManager->getStore($menuItem->getStoreId());
+        $store = $this->getStoreById($menuItem->getStoreId());
 
         $this->itemRegistry->set($menuItem);
         $this->storeRegistry->set($store);
@@ -93,7 +95,7 @@ class Builder
      *
      * @return ItemInterface
      *
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @throws NoSuchStoreException
      */
     private function getMenuItem(RequestInterface $request): ItemInterface
     {
@@ -101,7 +103,7 @@ class Builder
 
         try {
             $menuItem = $this->itemRepository->get($menuItemId);
-        } catch (\Exception $exception) {
+        } catch (NoSuchEntityException $exception) {
             $menuItem = $this->createEmptyMenuItem($request);
         }
 
@@ -115,7 +117,7 @@ class Builder
      *
      * @return ItemInterface
      *
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @throws NoSuchStoreException
      */
     private function createEmptyMenuItem(
         RequestInterface $request
@@ -136,15 +138,27 @@ class Builder
      *
      * @param RequestInterface $request
      *
-     * @return \Magento\Store\Api\Data\StoreInterface
+     * @return StoreInterface
      *
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @throws NoSuchStoreException
      */
     private function getStore(RequestInterface $request): StoreInterface
     {
         $defaultStoreId = (int) $this->storeManager->getDefaultStoreView()->getId();
         $storeId = (int) $request->getParam('store', $defaultStoreId);
 
-        return $this->storeManager->getStore($storeId);
+        return $this->getStoreById($storeId);
+    }
+
+    /**
+     * @throws NoSuchStoreException
+     */
+    private function getStoreById(int $storeId): StoreInterface
+    {
+        try {
+            return $this->storeManager->getStore($storeId);
+        } catch (NoSuchEntityException $entityException) {
+            throw new NoSuchStoreException($storeId);
+        }
     }
 }

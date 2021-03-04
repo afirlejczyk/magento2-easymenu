@@ -10,7 +10,10 @@ use AMF\EasyMenuApi\Api\ItemRepositoryInterface;
 use Magento\Backend\App\Action;
 use Magento\Backend\Model\View\Result\Redirect;
 use Magento\Framework\App\Action\HttpPostActionInterface;
+use Magento\Framework\Exception\CouldNotDeleteException;
 use Magento\Framework\View\Result\PageFactory;
+use NoSuchStoreException;
+use Psr\Log\LoggerInterface;
 
 /**
  * Item delete controller
@@ -18,7 +21,7 @@ use Magento\Framework\View\Result\PageFactory;
 class Delete extends Controller\Adminhtml\Item implements HttpPostActionInterface
 {
     /**
-     * @var \Psr\Log\LoggerInterface $logger
+     * @var LoggerInterface $logger
      */
     private $logger;
 
@@ -29,14 +32,14 @@ class Delete extends Controller\Adminhtml\Item implements HttpPostActionInterfac
      * @param ItemRepositoryInterface $itemRepository
      * @param PageFactory $resultPageFactory
      * @param Builder $menuItemBuilder
-     * @param \Psr\Log\LoggerInterface $logger
+     * @param LoggerInterface $logger
      */
     public function __construct(
         Action\Context $context,
         ItemRepositoryInterface $itemRepository,
         PageFactory $resultPageFactory,
         Builder $menuItemBuilder,
-        \Psr\Log\LoggerInterface $logger
+        LoggerInterface $logger
     ) {
         $this->logger = $logger;
 
@@ -49,7 +52,8 @@ class Delete extends Controller\Adminhtml\Item implements HttpPostActionInterfac
     }
 
     /**
-     * {@inheritdoc}
+     * @return Redirect
+     * @throws NoSuchStoreException
      */
     public function execute()
     {
@@ -72,7 +76,7 @@ class Delete extends Controller\Adminhtml\Item implements HttpPostActionInterfac
         try {
             $this->getItemRepository()->delete($menuItem);
             $this->messageManager->addSuccessMessage(__('You deleted menu item.'));
-        } catch (\Exception $exception) {
+        } catch (CouldNotDeleteException $exception) {
             $this->messageManager->addErrorMessage(__('Something went wrong while trying to delete menu item.'));
             $this->logger->critical($exception);
         }

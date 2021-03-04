@@ -9,9 +9,6 @@ use AMF\EasyMenu\Model\ResourceModel\Item as ResourceItem;
 use AMF\EasyMenuApi\Api\Data\ItemInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
 
-/**
- * @inheritdoc
- */
 class Get implements GetInterface
 {
     /**
@@ -24,12 +21,6 @@ class Get implements GetInterface
      */
     private $itemFactory;
 
-    /**
-     * ItemRepository constructor.
-     *
-     * @param ResourceItem $resourceItem
-     * @param ItemFactory $itemFactory
-     */
     public function __construct(
         ResourceItem $resourceItem,
         ItemFactory $itemFactory
@@ -38,16 +29,15 @@ class Get implements GetInterface
         $this->itemFactory = $itemFactory;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function execute(int $itemId): ItemInterface
     {
         $item = $this->itemFactory->create();
         $this->resource->load($item, $itemId);
 
         if (! $item->getId()) {
-            throw new NoSuchEntityException(__('Item Menu with id "%1" does not exist.', $itemId));
+            throw new NoSuchEntityException(
+                __('Item Menu with id "%1" does not exist.', $itemId)
+            );
         }
 
         return $item;

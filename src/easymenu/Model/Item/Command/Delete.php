@@ -9,9 +9,6 @@ use AMF\EasyMenuApi\Api\Data\ItemInterface;
 use Magento\Framework\Exception\CouldNotDeleteException;
 use Psr\Log\LoggerInterface;
 
-/**
- * @inheritdoc
- */
 class Delete implements DeleteInterface
 {
     /**
@@ -24,12 +21,6 @@ class Delete implements DeleteInterface
      */
     private $logger;
 
-    /**
-     * Delete constructor.
-     *
-     * @param ResourceItem $resourceItem
-     * @param LoggerInterface $logger
-     */
     public function __construct(
         ResourceItem $resourceItem,
         LoggerInterface $logger
@@ -38,9 +29,6 @@ class Delete implements DeleteInterface
         $this->logger = $logger;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function execute(ItemInterface $item): void
     {
         try {

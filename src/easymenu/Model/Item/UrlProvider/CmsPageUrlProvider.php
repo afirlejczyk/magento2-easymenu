@@ -28,10 +28,7 @@ class CmsPageUrlProvider implements UrlProviderInterface
         $this->cmsPageUrlProvider = $pageUrlProvider;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function loadAll(int $storeId, ItemInterface ...$items)
+    public function loadAll(int $storeId, ItemInterface ...$items): array
     {
         $cmsPageIds = $this->getCmsPagesIds(...$items);
         $cmsPageUrls = $this->cmsPageUrlProvider->execute(

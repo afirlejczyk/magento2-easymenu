@@ -1,16 +1,10 @@
 <?php
-/**
- * @package AMF\EasyMenuApi
- * @author Agata Firlejczyk
- * @copyright Copyright (c) 2017 Agata Firlejczyk
- * @license See LICENSE for license details.
- */
+
 declare(strict_types=1);
 
 namespace AMF\EasyMenuApi\Api;
 
 use AMF\EasyMenuApi\Api\Data\ItemInterface;
-use Magento\Framework\Exception\NoSuchEntityException;
 
 /**
  * In Magento 2 Repository considered as an implementation of Facade pattern which provides a simplified interface

@@ -16,6 +16,7 @@ interface BuildTreeInterface
      * Build Menu Edit
      *
      * @param ItemSearchResultInterface $itemSearchResult
+     *
      * @return Node
      */
     public function buildMenuTree(ItemSearchResultInterface $itemSearchResult): Node;

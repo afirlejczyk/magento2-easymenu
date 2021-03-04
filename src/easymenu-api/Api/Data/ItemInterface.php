@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace AMF\EasyMenuApi\Api\Data;
 
@@ -123,56 +125,58 @@ interface ItemInterface
     /**
      * @param int $id
      *
-     * @return ItemInterface
+     * @return void
+     *
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ReturnTypeHint.MissingNativeTypeHint
      */
     public function setId($id);
 
     /**
      * @param string $name
      *
-     * @return ItemInterface
+     * @return void
      */
-    public function setName($name);
+    public function setName(string $name): void;
 
     /**
      * @param string $value
      *
-     * @return ItemInterface
+     * @return void
      */
-    public function setValue($value);
+    public function setValue(string $value): void;
 
     /**
      * @param int $parent
      *
-     * @return ItemInterface
+     * @return void
      */
-    public function setParentId($parent);
+    public function setParentId(int $parent): void;
 
     /**
      * @param int $type
      *
-     * @return ItemInterface
+     * @return void
      */
-    public function setTypeId($type);
+    public function setTypeId(int $type): void;
 
     /**
      * @param int $priority
      *
-     * @return ItemInterface
+     * @return void
      */
-    public function setPriority($priority);
+    public function setPriority(int $priority): void;
 
     /**
      * @param int $store
      *
-     * @return ItemInterface
+     * @return void
      */
-    public function setStore($store);
+    public function setStore(int $store): void;
 
     /**
      * @param bool $isActive
      *
-     * @return ItemInterface
+     * @return void
      */
-    public function setIsActive($isActive);
+    public function setIsActive(bool $isActive): void;
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace AMF\EasyMenu\Model\ResourceModel;
 
 use AMF\EasyMenuApi\Model\GetMaxPriorityInterface;

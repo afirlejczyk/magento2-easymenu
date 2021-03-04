@@ -9,20 +9,22 @@ use Magento\Framework\DataObject\IdentityInterface;
 use Magento\Framework\Model\AbstractExtensibleModel;
 
 /**
- * {@inheritdoc}
- *
  * @codeCoverageIgnore
  */
 class Item extends AbstractExtensibleModel implements ItemInterface, IdentityInterface
 {
-    const CACHE_TAG = 'easymenu_item';
+    public const CACHE_TAG = 'easymenu_item';
+    public const CACHE_TAG_STORE = 'easymenu_item_store_';
 
-    const CACHE_TAG_STORE = 'easymenu_item_store_';
-
+    /**
+     * @var string
+     */
     protected $_cacheTag = self::CACHE_TAG;
 
     /**
-     * @return array
+     * @return array<string>
+     *
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ReturnTypeHint.MissingNativeTypeHint
      */
     public function getIdentities()
     {
@@ -32,7 +34,9 @@ class Item extends AbstractExtensibleModel implements ItemInterface, IdentityInt
     }
 
     /**
-     * @inheritdoc
+     * @return array<string>
+     *
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ReturnTypeHint.MissingNativeTypeHint
      */
     public function getCacheTags()
     {
@@ -46,138 +50,97 @@ class Item extends AbstractExtensibleModel implements ItemInterface, IdentityInt
     }
 
     /**
-     * @return void
-     */
-    protected function _construct()
-    {
-        $this->_init(\AMF\EasyMenu\Model\ResourceModel\Item::class);
-    }
-
-    /**
-     * @inheritdoc
+     * @return int|string|null
      */
     public function getId()
     {
         return $this->getData(self::ITEM_ID);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getName(): string
     {
         return (string) $this->getData(self::NAME);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getValue(): string
     {
         return (string) $this->getData(self::VALUE);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getParentId(): int
     {
         return (int) $this->getData(self::PARENT_ID);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getTypeId(): string
     {
         return (string) $this->getData(self::TYPE);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getPriority(): int
     {
         return (int) $this->getData(self::PRIORITY);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getStoreId(): int
     {
         return (int) $this->getData(self::STORE_ID);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function isActive(): bool
     {
         return (bool) $this->getData(self::IS_ACTIVE);
     }
 
     /**
-     * @inheritdoc
+     * @param int|string $id
+     *
+     * @return Item
+     *
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ReturnTypeHint.MissingNativeTypeHint
      */
     public function setId($id)
     {
         return $this->setData(self::ITEM_ID, $id);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function setName($name)
+    public function setName(string $name): void
     {
-        return $this->setData(self::NAME, $name);
+        $this->setData(self::NAME, $name);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function setValue($value)
+    public function setValue(string $value): void
     {
-        return $this->setData(self::VALUE, $value);
+        $this->setData(self::VALUE, $value);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function setParentId($parent)
+    public function setParentId(int $parent): void
     {
-        return $this->setData(self::PARENT_ID, $parent);
+        $this->setData(self::PARENT_ID, $parent);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function setTypeId($type)
+    public function setTypeId(int $type): void
     {
-        return $this->setData(self::TYPE, $type);
+        $this->setData(self::TYPE, $type);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function setPriority($priority)
+    public function setPriority(int $priority): void
     {
-        return $this->setData(self::PRIORITY, $priority);
+        $this->setData(self::PRIORITY, $priority);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function setStore($store)
+    public function setStore(int $store): void
     {
-        return $this->setData(self::STORE_ID, $store);
+        $this->setData(self::STORE_ID, $store);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function setIsActive($isActive)
+    public function setIsActive(bool $isActive): void
     {
-        return $this->getData(self::IS_ACTIVE, $isActive);
+        $this->getData(self::IS_ACTIVE, $isActive);
+    }
+
+    protected function _construct(): void
+    {
+        $this->_init(ResourceModel\Item::class);
     }
 }

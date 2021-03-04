@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace AMF\EasyMenu\Model\Item;
 
 use AMF\EasyMenuApi\Api\Data\ItemInterface;
-use AMF\EasyMenu\Model\Item\UrlBuilderInterfaceFactory;
 
 /**
  * Resolve url for specific Menu Item
@@ -18,7 +17,7 @@ class UrlResolver
     private $urlBuilderFactory;
 
     /**
-     * @var array
+     * @var array<string>
      */
     private $urlById;
 
@@ -41,7 +40,7 @@ class UrlResolver
      */
     public function getUrl(ItemInterface $item): string
     {
-        if (null === $this->urlById) {
+        if ($this->urlById === null) {
             /** @var UrlBuilderInterface $urlBuilder */
             $urlBuilder = $this->urlBuilderFactory->create(['storeId' => $item->getStoreId()]);
             $this->urlById = $urlBuilder->getUrlsForActiveItems();

@@ -22,6 +22,7 @@ interface GetItemsByStoreIdInterface
 
     /**
      * @param int $storeId
+     *
      * @return ItemSearchResultInterface
      */
     public function getAll(int $storeId): ItemSearchResultInterface;

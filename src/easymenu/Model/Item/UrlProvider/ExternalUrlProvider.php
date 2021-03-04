@@ -28,10 +28,7 @@ class ExternalUrlProvider implements UrlProviderInterface
         $this->urlBuilder = $urlBuilder;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function loadAll(int $storeId, ItemInterface ...$items)
+    public function loadAll(int $storeId, ItemInterface ...$items): array
     {
         $urls = [];
 

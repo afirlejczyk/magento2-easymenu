@@ -8,12 +8,9 @@ use AMF\EasyMenu\Model\ItemSearchResultFactory;
 use AMF\EasyMenu\Model\ResourceModel\Item\Collection;
 use AMF\EasyMenu\Model\ResourceModel\Item\CollectionFactory;
 use AMF\EasyMenuApi\Api\Data\ItemSearchResultInterface;
+use Magento\Framework\Api\SearchCriteria\CollectionProcessorInterface;
 use Magento\Framework\Api\SearchCriteriaInterface;
-use \Magento\Framework\Api\SearchCriteria\CollectionProcessorInterface;
 
-/**
- * @inheritdoc
- */
 class GetList implements GetListInterface
 {
     /**
@@ -31,13 +28,6 @@ class GetList implements GetListInterface
      */
     private $itemSearchResultsFactory;
 
-    /**
-     * GetList constructor.
-     *
-     * @param CollectionProcessorInterface $collectionProcessor
-     * @param CollectionFactory $itemCollectionFactory
-     * @param ItemSearchResultFactory $itemSearchResult
-     */
     public function __construct(
         CollectionProcessorInterface $collectionProcessor,
         CollectionFactory $itemCollectionFactory,
@@ -48,9 +38,6 @@ class GetList implements GetListInterface
         $this->itemSearchResultsFactory = $itemSearchResult;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function execute(SearchCriteriaInterface $searchCriteria): ItemSearchResultInterface
     {
         /** @var Collection $collection */

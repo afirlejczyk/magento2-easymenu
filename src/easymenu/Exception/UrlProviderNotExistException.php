@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace AMF\EasyMenu\Exception;
 
 use Magento\Framework\Exception\LocalizedException;
@@ -8,6 +10,7 @@ class UrlProviderNotExistException extends LocalizedException
 {
     /**
      * UrlProviderNotExistException constructor.
+     *
      * @param string $type
      */
     public function __construct(string $type)

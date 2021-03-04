@@ -28,10 +28,7 @@ class CategoryUrlProvider implements UrlProviderInterface
         $this->categoryUrlFinder = $categoryUrlProvider;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function loadAll(int $storeId, ItemInterface ...$items)
+    public function loadAll(int $storeId, ItemInterface ...$items): array
     {
         $categoryIds = [];
 

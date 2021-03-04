@@ -10,9 +10,6 @@ use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\LocalizedException;
 use Psr\Log\LoggerInterface;
 
-/**
- * @inheritdoc
- */
 class Save implements SaveInterface
 {
     /**
@@ -25,12 +22,6 @@ class Save implements SaveInterface
      */
     private $logger;
 
-    /**
-     * Save constructor.
-     *
-     * @param ResourceItem $resourceItem
-     * @param LoggerInterface $logger
-     */
     public function __construct(
         ResourceItem $resourceItem,
         LoggerInterface $logger
@@ -39,9 +30,6 @@ class Save implements SaveInterface
         $this->logger = $logger;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function execute(ItemInterface $item): int
     {
         try {

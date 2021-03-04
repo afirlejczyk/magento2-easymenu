@@ -41,7 +41,7 @@ class ChangeParent
         ItemInterface $menuItem,
         ?ItemInterface $newParent,
         ?int $afterMenuItemId
-    ) {
+    ): void {
         $connection = $this->resource->getConnection();
         $connection->beginTransaction();
 
@@ -158,8 +158,9 @@ class ChangeParent
             ->where('item_id = :item_id');
 
         $priority = (int) $connection->fetchOne($select, ['item_id' => $afterMenuItemId]);
+        $priority++;
 
-        return ++$priority;
+        return $priority;
     }
 
     /**

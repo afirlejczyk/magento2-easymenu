@@ -1,8 +1,10 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace AMF\EasyMenuApi\Api\Data;
+
+use Magento\Framework\Api\SearchResultsInterface;
 
 /**
  * Search results of Repository::getList method
@@ -11,17 +13,17 @@ namespace AMF\EasyMenuApi\Api\Data;
  *
  * @api
  */
-interface ItemSearchResultInterface extends \Magento\Framework\Api\SearchResultsInterface
+interface ItemSearchResultInterface extends SearchResultsInterface
 {
     /**
-     * Get stocks list
+     * Get items list
      *
      * @return \AMF\EasyMenuApi\Api\Data\ItemInterface[]
      */
     public function getItems();
 
     /**
-     * Set stocks list
+     * Set items list
      *
      * @param \AMF\EasyMenuApi\Api\Data\ItemInterface[] $items
      *

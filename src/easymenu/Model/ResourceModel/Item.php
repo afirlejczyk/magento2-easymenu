@@ -1,14 +1,10 @@
 <?php
-/**
- * @package AMF\EasyMenu
- * @author Agata Firlejczyk
- * @copyright Copyright (c) 2017 Agata Firlejczyk
- * @license See LICENSE for license details.
- */
+
 declare(strict_types=1);
 
 namespace AMF\EasyMenu\Model\ResourceModel;
 
+use AMF\EasyMenu\Exception\WrongParentException;
 use AMF\EasyMenuApi\Api\Data\ItemInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Model\AbstractModel;
@@ -19,14 +15,13 @@ use Magento\Framework\Model\ResourceModel\Db\AbstractDb;
  */
 class Item extends AbstractDb
 {
-    const TABLE_NAME_MENU_ITEM = 'easymenu_item';
+    public const TABLE_NAME_MENU_ITEM = 'easymenu_item';
 
     /**
      * Get Children Ids
      *
-     * @param AbstractModel $item
+     * @return array<int>
      *
-     * @return array
      * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function getChildrenIds(AbstractModel $item): array
@@ -41,26 +36,25 @@ class Item extends AbstractDb
 
     /**
      * Initialize resource model
-     *
-     * @return void
      */
-    protected function _construct()
+    protected function _construct(): void
     {
         $this->_init(self::TABLE_NAME_MENU_ITEM, 'item_id');
     }
 
     /**
-     * @param AbstractModel $object
+     * @param AbstractModel|\AMF\EasyMenu\Model\Item $object
      *
      * @return AbstractDb
-     * @throws LocalizedException
+     *
+     * @throws WrongParentException
+     *
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ReturnTypeHint.MissingNativeTypeHint
      */
     protected function _beforeSave(AbstractModel $object)
     {
         if ($object->getId() && (int) $object->getId() === (int) $object->getParentId()) {
-            throw new LocalizedException(
-                __('You cannot select yourself as parent. Please select different parent item.')
-            );
+            throw new WrongParentException();
         }
 
         return parent::_beforeSave($object);
@@ -68,29 +62,44 @@ class Item extends AbstractDb
 
     /**
      * {@inheritdoc}
+     *
+     * @return AbstractModel
+     *
+     * @throws LocalizedException
      */
     protected function _beforeDelete(AbstractModel $object)
     {
         parent::_beforeDelete($object);
         $this->updateChildren($object);
+
+        return $this;
     }
 
     /**
      * Update Parent Id in Children
      *
-     * @param AbstractModel $item
+     * @param AbstractModel|\AMF\EasyMenu\Model\Item $item
      *
      * @throws LocalizedException
      */
     private function updateChildren(AbstractModel $item): void
     {
         $connection = $this->getConnection();
-        $where = $connection->prepareSqlCondition('item_id', ['in' => $this->getChildrenIds($item)]);
 
         $connection->update(
             $this->getMainTable(),
             ['parent_id' => $item->getParentId()],
-            $where
+            $this->buildWhereCondition($item)
+        );
+    }
+
+    private function buildWhereCondition(AbstractModel $item): string
+    {
+        $connection = $this->getConnection();
+
+        return $connection->prepareSqlCondition(
+            'item_id',
+            ['in' => $this->getChildrenIds($item)]
         );
     }
 }

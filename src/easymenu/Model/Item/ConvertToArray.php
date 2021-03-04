@@ -7,9 +7,6 @@ namespace AMF\EasyMenu\Model\Item;
 use AMF\EasyMenuApi\Api\Data\ItemInterface;
 use AMF\EasyMenuApi\Model\Item\ConvertToArrayInterface;
 
-/**
- * @inheritdoc
- */
 class ConvertToArray implements ConvertToArrayInterface
 {
     /**
@@ -27,13 +24,6 @@ class ConvertToArray implements ConvertToArrayInterface
         $this->urlResolver = $resolver;
     }
 
-    /**
-     * @inheritdoc
-     *
-     * @param ItemInterface $item
-     *
-     * @return array
-     */
     public function execute(ItemInterface $item): array
     {
         return [

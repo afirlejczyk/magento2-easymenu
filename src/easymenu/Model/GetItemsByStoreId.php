@@ -9,9 +9,6 @@ use AMF\EasyMenu\Model\ResourceModel\Item\CollectionFactory;
 use AMF\EasyMenuApi\Api\Data\ItemSearchResultInterface;
 use AMF\EasyMenuApi\Model\GetItemsByStoreIdInterface;
 
-/**
- * {@inheritDoc}
- */
 class GetItemsByStoreId implements GetItemsByStoreIdInterface
 {
     /**
@@ -62,10 +59,6 @@ class GetItemsByStoreId implements GetItemsByStoreIdInterface
         return $this->cacheItemInstance[$cacheKey];
     }
 
-    /**
-     * @param int $storeId
-     * @return ItemSearchResultInterface
-     */
     public function getAll(int $storeId): ItemSearchResultInterface
     {
         $cacheKey = $this->getCacheKey($storeId, false);
@@ -78,23 +71,11 @@ class GetItemsByStoreId implements GetItemsByStoreIdInterface
         return $this->cacheItemInstance[$cacheKey];
     }
 
-    /**
-     * @param int $storeId
-     * @param bool $onlyActive
-     * @return string
-     */
     private function getCacheKey(int $storeId, bool $onlyActive): string
     {
-        return $storeId . '_' . (int)$onlyActive;
+        return $storeId . '_' . (int) $onlyActive;
     }
 
-    /**
-     * Get Items collection
-     *
-     * @param int $storeId
-     *
-     * @return Collection
-     */
     private function getCollection(int $storeId, bool $onlyActive): Collection
     {
         /** @var Collection $collection */
@@ -110,13 +91,6 @@ class GetItemsByStoreId implements GetItemsByStoreIdInterface
         return $collection;
     }
 
-    /**
-     * Create Search Result
-     *
-     * @param ResourceModel\Item\Collection $collection
-     *
-     * @return ItemSearchResultInterface
-     */
     private function createSearchResult(Collection $collection): ItemSearchResultInterface
     {
         /** @var ItemSearchResultInterface $searchResult */

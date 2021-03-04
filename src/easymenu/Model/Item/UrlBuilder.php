@@ -8,9 +8,6 @@ use AMF\EasyMenu\Model\Item\UrlProvider\Pool;
 use AMF\EasyMenuApi\Api\Data\ItemInterface;
 use AMF\EasyMenuApi\Model\GetItemsByStoreIdInterface;
 
-/**
- * @inheritdoc
- */
 class UrlBuilder implements UrlBuilderInterface
 {
     /**
@@ -24,12 +21,12 @@ class UrlBuilder implements UrlBuilderInterface
     private $getItemsByStoreId;
 
     /**
-     * @var array
+     * @var array<string>
      */
     private $urlsByType = [];
 
     /**
-     * @var array
+     * @var array<ItemInterface>
      */
     private $itemsByType = [];
 

@@ -13,9 +13,6 @@ use AMF\EasyMenuApi\Api\Data\ItemInterface;
 use AMF\EasyMenuApi\Api\ItemRepositoryInterface;
 use Magento\Framework\Api\SearchCriteriaInterface;
 
-/**
- * @inheritdoc
- */
 class ItemRepository implements ItemRepositoryInterface
 {
     /**
@@ -58,33 +55,21 @@ class ItemRepository implements ItemRepositoryInterface
         $this->commandDelete = $commandDelete;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function save(Data\ItemInterface $item): int
     {
         return $this->commandSave->execute($item);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function get($itemId): ItemInterface
     {
         return $this->commandGet->execute($itemId);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function delete(Data\ItemInterface $item): void
     {
         $this->commandDelete->execute($item);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getList(SearchCriteriaInterface $searchCriteria)
     {
         return $this->commandGetList->execute($searchCriteria);

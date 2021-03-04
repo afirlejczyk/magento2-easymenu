@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace AMF\EasyMenu\Model\Item;
 
@@ -17,5 +19,5 @@ interface UrlProviderInterface
      *
      * @return array
      */
-    public function loadAll(int $storeId, ItemInterface ...$items);
+    public function loadAll(int $storeId, ItemInterface ...$items): array;
 }

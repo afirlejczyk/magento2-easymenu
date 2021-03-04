@@ -7,9 +7,6 @@ namespace AMF\EasyMenu\Model;
 use AMF\EasyMenuApi\Api\Data\ItemSearchResultInterface;
 use Magento\Framework\Api\SearchResults;
 
-/**
- * {@inheritDoc}
- */
 class ItemSearchResult extends SearchResults implements ItemSearchResultInterface
 {
 }

@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace AMF\EasyMenuApi\Model;
 
@@ -17,6 +17,7 @@ interface ItemMoverInterface
      * @param int|null $afterMenuItemId
      *
      * @return void
+     *
      * @throws \Exception
      * @throws \Magento\Framework\Exception\LocalizedException
      */

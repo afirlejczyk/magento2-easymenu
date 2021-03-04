@@ -7,7 +7,6 @@ namespace AMF\EasyMenu\Model\Item\UrlProvider;
 use AMF\EasyMenu\Exception\UrlProviderNotExistException;
 use AMF\EasyMenu\Model\Item\UrlProvider\Factory as ProviderFactory;
 use AMF\EasyMenu\Model\Item\UrlProviderInterface;
-use Magento\Framework\Exception\LocalizedException;
 
 /**
  * Return URL provider for given type
@@ -15,9 +14,9 @@ use Magento\Framework\Exception\LocalizedException;
 class Pool
 {
     /**
-     * @var array
+     * @var array<UrlProviderInterface>
      */
-    private $urlProviders = [];
+    private $urlProviders;
 
     /**
      * @var ProviderFactory
@@ -28,7 +27,7 @@ class Pool
      * Pool constructor.
      *
      * @param Factory $providerFactory
-     * @param array $urlProviders
+     * @param array<UrlProviderInterface> $urlProviders
      */
     public function __construct(ProviderFactory $providerFactory, array $urlProviders)
     {
@@ -37,11 +36,7 @@ class Pool
     }
 
     /**
-     * Retrieve url provider
-     *
-     * @param string $type
-     *
-     * @return UrlProviderInterface
+     * @throws UrlProviderNotExistException
      */
     public function get(string $type): UrlProviderInterface
     {

@@ -124,10 +124,16 @@ class ItemDataProviderTest extends TestCase
         $value = 'cms-id';
         $typeId = 10;
         $name = 'Category Item';
+        $priority = 1;
+        $parentId = 99;
+        $storeId = 1;
         $this->itemMock->method('getTypeId')->willReturn($typeId);
         $this->itemMock->method('getId')->willReturn($itemId);
         $this->itemMock->method('getValue')->willReturn($value);
         $this->itemMock->method('getName')->willReturn($name);
+        $this->itemMock->method('getPriority')->willReturn($priority);
+        $this->itemMock->method('getParentId')->willReturn($parentId);
+        $this->itemMock->method('getStoreId')->willReturn($storeId);
         $this->itemMock->method('isActive')->willReturn(true);
 
         $this->locatorMock->method('getMenuItem')->willReturn($this->itemMock);
@@ -145,10 +151,10 @@ class ItemDataProviderTest extends TestCase
             'item_id' => $itemId,
             'type' => $typeId,
             'cms' => $value,
-            'parent_id' => null,
+            'parent_id' => $parentId,
             'name' => $name,
-            'store_id' => null,
-            'priority' => null,
+            'store_id' => $storeId,
+            'priority' => $priority,
             'is_active' => 1,
         ];
 

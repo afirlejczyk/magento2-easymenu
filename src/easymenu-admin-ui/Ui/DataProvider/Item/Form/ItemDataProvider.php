@@ -108,7 +108,7 @@ class ItemDataProvider extends AbstractDataProvider
             'name' => $menuItem->getName(),
             'store_id' => $menuItem->getStoreId(),
             'priority' => $menuItem->getPriority(),
-            'parent_id' => $menuItem->getPriority(),
+            'parent_id' => $menuItem->getParentId(),
             'type' => $menuItem->getTypeId(),
             'is_active' => $menuItem->isActive() ? '1' : '0',
             $valueFieldName => $menuItem->getValue(),

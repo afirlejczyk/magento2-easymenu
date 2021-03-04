@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace AMF\EasyMenuAdminUi\Controller\Adminhtml\Item;
 
 use AMF\EasyMenuAdminUi\Controller;
+use AMF\EasyMenuAdminUi\Exception\NoSuchStoreException;
 use AMF\EasyMenuApi\Api\Data\ItemInterface;
 use AMF\EasyMenuApi\Api\ItemRepositoryInterface;
 use Magento\Backend\App\Action;
@@ -12,7 +13,6 @@ use Magento\Backend\Model\View\Result\Redirect;
 use Magento\Framework\App\Action\HttpPostActionInterface;
 use Magento\Framework\Exception\CouldNotDeleteException;
 use Magento\Framework\View\Result\PageFactory;
-use NoSuchStoreException;
 use Psr\Log\LoggerInterface;
 
 /**

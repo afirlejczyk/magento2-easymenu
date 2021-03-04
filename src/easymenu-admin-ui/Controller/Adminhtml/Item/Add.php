@@ -73,7 +73,7 @@ class Add extends Item implements HttpGetActionInterface
      *
      * @return Redirect
      */
-    private function redirect()
+    private function redirect(): Redirect
     {
         /** @var Redirect $resultRedirect */
         $resultRedirect = $this->resultRedirectFactory->create();

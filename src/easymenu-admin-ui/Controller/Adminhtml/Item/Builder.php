@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace AMF\EasyMenuAdminUi\Controller\Adminhtml\Item;
 
+use AMF\EasyMenuAdminUi\Exception\NoSuchStoreException;
 use AMF\EasyMenuAdminUi\Registry\CurrentItem as ItemRegistry;
 use AMF\EasyMenuAdminUi\Registry\CurrentStore as StoreRegistry;
 use AMF\EasyMenuApi\Api\Data\ItemInterface;
@@ -13,7 +14,6 @@ use Magento\Framework\App\RequestInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Store\Api\Data\StoreInterface;
 use Magento\Store\Model\StoreManagerInterface;
-use NoSuchStoreException;
 
 /**
  * Build a menu item based on a request

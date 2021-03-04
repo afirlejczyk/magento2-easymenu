@@ -1,5 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
+namespace AMF\EasyMenuAdminUi\Exception;
+
 use Magento\Framework\Exception\LocalizedException;
 
 class NoSuchStoreException extends LocalizedException

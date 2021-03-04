@@ -99,8 +99,6 @@ class Save extends Item
     }
 
     /**
-     * Redirect
-     *
      * @param $menuItem
      *
      * @return Redirect
@@ -120,11 +118,8 @@ class Save extends Item
     }
 
     /**
-     * Retrieve Menu Item
-     *
-     * @return ItemInterface|null
-     *
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @return ItemInterface
+     * @throws NoSuchStoreException
      */
     private function getMenuItem(): ItemInterface
     {

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace AMF\EasyMenuAdminUi\Controller\Adminhtml\Item;
 
 use AMF\EasyMenuAdminUi\Controller\Adminhtml\Item;
+use AMF\EasyMenuAdminUi\Exception\NoSuchStoreException;
 use AMF\EasyMenuApi\Api\Data\ItemInterface;
 use AMF\EasyMenuApi\Api\ItemRepositoryInterface;
 use Exception;
@@ -12,6 +13,7 @@ use Magento\Backend\App\Action;
 use Magento\Backend\Model\View\Result\Redirect;
 use Magento\Framework\App\Request\DataPersistorInterface;
 use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\HTTP\PhpEnvironment\Request;
 use Magento\Framework\View\Result\PageFactory;
 use Psr\Log\LoggerInterface;
 
@@ -70,9 +72,12 @@ class Save extends Item
         $menuItem = $this->getMenuItem();
         $this->save($menuItem);
         $this->dataPersistor->clear('menu_item');
-        $data = $menuItem->getData();
-        $data = $this->getRequest()->getPostValue();
-        $this->dataPersistor->set('menu_item', $data);
+
+        /** @var Request $request */
+        $request = $this->getRequest();
+
+        $postParams = $request->getPostValue();
+        $this->dataPersistor->set('menu_item', $postParams);
 
         return $this->redirect($menuItem);
     }
@@ -123,10 +128,14 @@ class Save extends Item
      */
     private function getMenuItem(): ItemInterface
     {
-        $menuItem = $this->getItemBuilder()->build($this->getRequest());
-        $data = $this->getRequest()->getPostValue();
-        $data = $this->dataProcessor->process($data);
-        $menuItem->setData($data);
+        /** @var Request $request */
+        $request = $this->getRequest();
+
+        $postParams = $request->getPostValue();
+        $itemData = $this->dataProcessor->process($postParams);
+
+        $menuItem = $this->getItemBuilder()->build($request);
+        $menuItem->setData($itemData);
 
         return $menuItem;
     }

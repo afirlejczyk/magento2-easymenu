@@ -79,7 +79,7 @@ class Move extends Item implements HttpPostActionInterface
     {
         $error = $this->move();
 
-        if (! $error) {
+        if (!$error) {
             $this->messageManager->addSuccessMessage(__('You moved menu item.'));
         }
 
@@ -95,19 +95,21 @@ class Move extends Item implements HttpPostActionInterface
      */
     private function createResultJson(bool $error): Json
     {
-        /** @var Messages $block */
-        $block = $this->layoutFactory->create()->getMessagesBlock();
+        $layout = $this->layoutFactory->create();
+        $block = $layout->getMessagesBlock();
+
         $block->setMessages($this->messageManager->getMessages(true));
 
-        /** @var Json $resultJson */
         $resultJson = $this->resultJsonFactory->create();
 
-        return $resultJson->setData(
+        $resultJson->setData(
             [
                 'messages' => $block->getGroupedHtml(),
                 'error' => $error,
             ]
         );
+
+        return $resultJson;
     }
 
     /**
@@ -117,9 +119,10 @@ class Move extends Item implements HttpPostActionInterface
      */
     private function move(): bool
     {
+        $request = $this->getRequest();
+        $parentNodeId = (int) $request->getParam('pid', false);
+        $prevNodeId = (int) $request->getParam('aid', false);
         $error = false;
-        $parentNodeId = (int) $this->getRequest()->getPost('pid', false) ;
-        $prevNodeId = (int) $this->getRequest()->getPost('aid', false);
 
         try {
             $menuItem = $this->getItemBuilder()->build($this->getRequest());

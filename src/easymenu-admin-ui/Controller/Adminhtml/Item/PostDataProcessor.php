@@ -57,10 +57,6 @@ class PostDataProcessor
         $type = $data['type'];
         $valueLookupFieldName = $this->valueLookup->getValueFieldNameByType($type);
 
-        if ($valueLookupFieldName) {
-            return $data[$valueLookupFieldName];
-        }
-
-        return '';
+        return $valueLookupFieldName ? $data[$valueLookupFieldName] : '';
     }
 }

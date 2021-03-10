@@ -4,23 +4,19 @@ declare(strict_types=1);
 
 namespace AMF\EasyMenuAdminUi\Controller\Adminhtml\Item;
 
-use AMF\EasyMenuAdminUi\Controller\Adminhtml\Item;
 use AMF\EasyMenuApi\Model\ItemMoverInterface;
-use AMF\EasyMenuApi\Api\ItemRepositoryInterface;
 use Exception;
 use Magento\Backend\App\Action;
 use Magento\Framework\App\Action\HttpPostActionInterface;
 use Magento\Framework\Controller\Result\Json;
 use Magento\Framework\Controller\Result\JsonFactory;
-use Magento\Framework\View\Element\Messages;
 use Magento\Framework\View\LayoutFactory;
-use Magento\Framework\View\Result\PageFactory;
 use Psr\Log\LoggerInterface;
 
 /**
  * Item move controller
  */
-class Move extends Item implements HttpPostActionInterface
+class Move extends Action implements HttpPostActionInterface
 {
     /**
      * @var JsonFactory
@@ -41,31 +37,22 @@ class Move extends Item implements HttpPostActionInterface
      * @var ItemMoverInterface
      */
     private $itemMover;
-
     /**
-     * Move constructor.
-     *
-     * @param Action\Context $context
-     * @param ItemRepositoryInterface $itemRepository
-     * @param PageFactory $resultPageFactory
-     * @param Builder $menuItemBuilder
-     * @param ItemMoverInterface $itemMover
-     * @param JsonFactory $resultJsonFactory
-     * @param LoggerInterface $logger
-     * @param LayoutFactory $layoutFactory
+     * @var Builder
      */
+    private $itemBuilder;
+
     public function __construct(
         Action\Context $context,
-        ItemRepositoryInterface $itemRepository,
-        PageFactory $resultPageFactory,
         Builder $menuItemBuilder,
         ItemMoverInterface $itemMover,
         JsonFactory $resultJsonFactory,
         LoggerInterface $logger,
         LayoutFactory $layoutFactory
     ) {
-        parent::__construct($context, $itemRepository, $resultPageFactory, $menuItemBuilder);
+        parent::__construct($context);
 
+        $this->itemBuilder = $menuItemBuilder;
         $this->resultJsonFactory = $resultJsonFactory;
         $this->layoutFactory = $layoutFactory;
         $this->logger = $logger;
@@ -125,7 +112,7 @@ class Move extends Item implements HttpPostActionInterface
         $error = false;
 
         try {
-            $menuItem = $this->getItemBuilder()->build($this->getRequest());
+            $menuItem = $this->itemBuilder->build($this->getRequest());
             $this->itemMover->move($menuItem, $parentNodeId, $prevNodeId);
         } catch (Exception $exception) {
             $error = true;

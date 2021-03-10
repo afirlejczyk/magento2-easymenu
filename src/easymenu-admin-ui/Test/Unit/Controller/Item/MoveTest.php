@@ -5,7 +5,6 @@ namespace AMF\EasyMenuAdminUi\Test\Unit\Controller\Adminhtml\Item;
 use AMF\EasyMenuAdminUi\Controller\Adminhtml\Item\Builder;
 use AMF\EasyMenuAdminUi\Controller\Adminhtml\Item\Move as MoveAction;
 use AMF\EasyMenuApi\Api\Data\ItemInterface;
-use AMF\EasyMenuApi\Api\ItemRepositoryInterface;
 use AMF\EasyMenuApi\Model\ItemMoverInterface;
 use Magento\Backend\App\Action\Context;
 use Magento\Framework\App\RequestInterface;
@@ -16,7 +15,6 @@ use Magento\Framework\Message\ManagerInterface;
 use Magento\Framework\View\Element\Messages;
 use Magento\Framework\View\LayoutFactory;
 use Magento\Framework\View\LayoutInterface;
-use Magento\Framework\View\Result\PageFactory;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 
@@ -104,8 +102,6 @@ class MoveTest extends TestCase
 
         $this->moveAction = new MoveAction(
             $this->actionContextMock,
-            $this->createMock(ItemRepositoryInterface::class),
-            $this->createMock(PageFactory::class),
             $this->itemBuilderMock,
             $this->itemMoverMock,
             $this->resultJsonFactory,
@@ -146,7 +142,10 @@ class MoveTest extends TestCase
             ->method('addSuccessMessage')
             ->with(__('You moved menu item.'));
 
-        $this->moveAction->execute();
+        self::assertEquals(
+            $this->resultJsonMock,
+            $this->moveAction->execute()
+        );
     }
 
     public function testReturnErrorJsonResult()
@@ -188,6 +187,9 @@ class MoveTest extends TestCase
             ]
         )->willReturnSelf();
 
-        $this->moveAction->execute();
+        self::assertEquals(
+            $this->resultJsonMock,
+            $this->moveAction->execute()
+        );
     }
 }

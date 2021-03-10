@@ -119,7 +119,7 @@ class Item extends AbstractExtensibleModel implements ItemInterface, IdentityInt
         $this->setData(self::PARENT_ID, $parent);
     }
 
-    public function setTypeId(int $type): void
+    public function setTypeId(string $type): void
     {
         $this->setData(self::TYPE, $type);
     }
@@ -136,7 +136,7 @@ class Item extends AbstractExtensibleModel implements ItemInterface, IdentityInt
 
     public function setIsActive(bool $isActive): void
     {
-        $this->getData(self::IS_ACTIVE, $isActive);
+        $this->setData(self::IS_ACTIVE, $isActive);
     }
 
     protected function _construct(): void

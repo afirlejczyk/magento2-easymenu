@@ -75,9 +75,7 @@ class Save extends Item
 
         /** @var Request $request */
         $request = $this->getRequest();
-
-        $postParams = $request->getPostValue();
-        $this->dataPersistor->set('menu_item', $postParams);
+        $this->dataPersistor->set('menu_item', $request->getParams());
 
         return $this->redirect($menuItem);
     }
@@ -131,12 +129,24 @@ class Save extends Item
         /** @var Request $request */
         $request = $this->getRequest();
 
-        $postParams = $request->getPostValue();
+        $postParams = $request->getParams();
         $itemData = $this->dataProcessor->process($postParams);
 
         $menuItem = $this->getItemBuilder()->build($request);
-        $menuItem->setData($itemData);
+        $this->updateItemData($menuItem, $itemData);
 
         return $menuItem;
+    }
+
+    private function updateItemData(ItemInterface $menuItem, array $postItemData): void
+    {
+        $menuItem->setName($postItemData['name']);
+        $menuItem->setPriority((int) $postItemData['priority']);
+        $menuItem->setParentId((int) $postItemData['parent_id']);
+        $menuItem->setIsActive((bool) $postItemData['is_active']);
+        $menuItem->setStore((int)$postItemData['store_id']);
+        $menuItem->setValue($postItemData['value']);
+        $menuItem->setId($postItemData['item_id']);
+        $menuItem->setTypeId($postItemData['type']);
     }
 }

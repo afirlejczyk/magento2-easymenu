@@ -153,11 +153,11 @@ interface ItemInterface
     public function setParentId(int $parent): void;
 
     /**
-     * @param int $type
+     * @param string $type
      *
      * @return void
      */
-    public function setTypeId(int $type): void;
+    public function setTypeId(string $type): void;
 
     /**
      * @param int $priority
